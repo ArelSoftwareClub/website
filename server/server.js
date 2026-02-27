@@ -38,7 +38,9 @@ const allowedOrigins = [
     'http://localhost:5500',
     'http://127.0.0.1:5500',
     'https://arelsoftwareclub.github.io',
-];
+    // Railway deployment — update with your actual Railway URL after deploy
+    process.env.FRONTEND_URL,
+].filter(Boolean);
 app.use(cors({
     origin: (origin, callback) => {
         if (!origin || allowedOrigins.includes(origin)) callback(null, true);
