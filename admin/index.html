@@ -802,10 +802,10 @@
     <div id="toastArea"></div>
 
     <script>
-        // Auto-detect backend URL — works from localhost:3000 AND Live Server/file://
-        const BACKEND = window.location.port === '3000'
-            ? ''                    // same origin
-            : 'http://localhost:3000'; // dev (Live Server etc.)
+        // Auto-detect backend URL — works from localhost:3000 AND anywhere in the world
+        const BACKEND = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+            ? ''                                           // local dev: same origin
+            : 'https://website-production-ff5b.up.railway.app'; // production Railway URL
         const API = BACKEND + '/api';
         let token = localStorage.getItem('arel_admin_token');
         let currentLogType = null;

@@ -14,7 +14,7 @@ const contactRoute = require('./routes/contact');
 const adminRoute = require('./routes/admin');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;  // Railway injects PORT automatically
 
 // ── SECURITY HEADERS ─────────────────────────────────────────
 app.use(helmet({
