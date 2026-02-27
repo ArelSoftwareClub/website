@@ -214,7 +214,9 @@ ul {
   right: 0;
   z-index: 1000;
   padding: 16px 0;
-  transition: var(--transition);
+  transition: background 0.3s ease, padding 0.3s ease,
+    border 0.3s ease, backdrop-filter 0.3s ease,
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .navbar.scrolled {
