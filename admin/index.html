@@ -802,7 +802,11 @@
     <div id="toastArea"></div>
 
     <script>
-        const API = '/api';
+        // Auto-detect backend URL — works from localhost:3000 AND Live Server/file://
+        const BACKEND = window.location.port === '3000'
+            ? ''                    // same origin
+            : 'http://localhost:3000'; // dev (Live Server etc.)
+        const API = BACKEND + '/api';
         let token = localStorage.getItem('arel_admin_token');
         let currentLogType = null;
 
@@ -817,25 +821,54 @@
 
         // ── API HELPER ───────────────────────────────
         async function api(path, opts = {}) {
-            const res = await fetch(API + path, {
-                headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-                ...opts,
-            });
-            return res.json();
+            try {
+                const res = await fetch(API + path, {
+                    headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+                    ...opts,
+                });
+                return res.json();
+            } catch (e) {
+                console.error('API Error:', e);
+                return { success: false, error: 'Sunucuya bağlanılamadı. Server çalışıyor mu? (localhost:3000)' };
+            }
         }
 
         // ── LOGIN ────────────────────────────────────
         document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
 
         async function doLogin() {
-            const email = document.getElementById('loginEmail').value;
+            const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPass').value;
             const err = document.getElementById('loginErr');
             err.style.display = 'none';
 
+            if (!email || !password) {
+                err.textContent = 'E-posta ve şifre alanları zorunludur.';
+                err.style.display = 'block';
+                return;
+            }
+
+            const btn = document.querySelector('.btn-login');
+            btn.textContent = 'Giriş yapılıyor...';
+            btn.disabled = true;
+
             const data = await api('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) });
-            if (!data.success) { err.textContent = data.error; err.style.display = 'block'; return; }
-            if (data.user.role !== 'admin') { err.textContent = 'Bu panele erişim yetkiniz yok.'; err.style.display = 'block'; return; }
+
+            btn.textContent = 'Giriş Yap';
+            btn.disabled = false;
+
+            console.log('Login response:', data);
+
+            if (!data.success) {
+                err.textContent = data.error || 'Giriş başarısız.';
+                err.style.display = 'block';
+                return;
+            }
+            if (data.user.role !== 'admin') {
+                err.textContent = 'Bu panele erişim yetkiniz yok (admin değilsiniz).';
+                err.style.display = 'block';
+                return;
+            }
 
             token = data.token;
             localStorage.setItem('arel_admin_token', token);
