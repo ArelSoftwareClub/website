@@ -23,10 +23,11 @@ app.use(helmet({
         directives: {
             defaultSrc: ["'self'"],
             scriptSrc: ["'self'", "'unsafe-inline'"],
+            scriptSrcAttr: ["'unsafe-inline'"],   // allows onclick="..." handlers
             styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
             fontSrc: ["'self'", 'https://fonts.gstatic.com'],
             imgSrc: ["'self'", 'data:'],
-            connectSrc: ["'self'"],
+            connectSrc: ["'self'", 'http://localhost:3000'],
         },
     },
 }));
