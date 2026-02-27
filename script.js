@@ -7,6 +7,125 @@ function debounce(fn, delay) {
 }
 
 // ============================================================
+// CANVAS PARTICLE NETWORK BACKGROUND
+// ============================================================
+(function initCanvas() {
+  const canvas = document.createElement('canvas');
+  canvas.id = 'bgCanvas';
+  document.body.insertBefore(canvas, document.body.firstChild);
+  const ctx = canvas.getContext('2d');
+
+  const COLORS = ['#00d4ff', '#7c4dff', '#e040fb'];
+  const COUNT = window.innerWidth < 768 ? 50 : 90;
+  const RANGE = 150;
+  let W, H, nodes = [];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', debounce(resize, 300));
+
+  for (let i = 0; i < COUNT; i++) {
+    nodes.push({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      r: Math.random() * 1.8 + 0.6,
+      color: COLORS[Math.floor(Math.random() * COLORS.length)],
+    });
+  }
+
+  (function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // update
+    nodes.forEach(n => {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > W) n.vx *= -1;
+      if (n.y < 0 || n.y > H) n.vy *= -1;
+    });
+
+    // connections
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < RANGE) {
+          ctx.beginPath();
+          ctx.strokeStyle = nodes[i].color;
+          ctx.globalAlpha = (1 - d / RANGE) * 0.45;
+          ctx.lineWidth = 0.7;
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // dots
+    ctx.globalAlpha = 0.75;
+    nodes.forEach(n => {
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = n.color;
+      ctx.fill();
+    });
+
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  })();
+})();
+
+// ============================================================
+// DOT-GRID OVERLAY
+// ============================================================
+(function addGridOverlay() {
+  const grid = document.createElement('div');
+  grid.id = 'gridOverlay';
+  document.body.insertBefore(grid, document.body.firstChild);
+})();
+
+// ============================================================
+// FLOATING CODE SNIPPETS IN HERO
+// ============================================================
+(function addCodeDecorations() {
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+
+  const snippets = [
+    { text: 'import { AI } from "arel";\nconst model = new AI();\nawait model.train(data);', top: '15%', left: '2%', cls: '', delay: '0s', duration: '22s' },
+    { text: 'def hackathon():\n    ideas = generate()\n    return build(ideas)', top: '55%', left: '0%', cls: 'green', delay: '5s', duration: '26s' },
+    { text: 'git commit -m "Ship it 🚀"\ngit push origin main', top: '20%', right: '2%', cls: 'purple', delay: '8s', duration: '20s' },
+    { text: 'SELECT * FROM members\nWHERE active = TRUE\nORDER BY skill DESC;', top: '60%', right: '1%', cls: '', delay: '3s', duration: '24s' },
+  ];
+
+  snippets.forEach(s => {
+    const el = document.createElement('div');
+    el.className = `code-deco ${s.cls}`;
+    el.textContent = s.text;
+    el.style.top = s.top || 'auto';
+    el.style.left = s.left || 'auto';
+    if (s.right) el.style.right = s.right;
+    el.style.animationDelay = s.delay;
+    el.style.animationDuration = s.duration;
+    hero.appendChild(el);
+  });
+})();
+
+// ============================================================
+// TERMINAL CARD STYLE ON ABOUT CARDS
+// ============================================================
+document.querySelectorAll('.about-card').forEach(card => {
+  card.classList.add('terminal-card');
+});
+
+
+
+// ============================================================
 // TOAST NOTIFICATION SYSTEM
 // ============================================================
 function showToast(message, type = 'success', duration = 4000) {

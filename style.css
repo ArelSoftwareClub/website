@@ -12,19 +12,21 @@
   --purple: #7c4dff;
   --pink: #e040fb;
   --green: #00e676;
-  --bg-primary: #050810;
-  --bg-secondary: #0a0f1e;
-  --bg-card: rgba(255, 255, 255, 0.04);
-  --bg-card-hover: rgba(255, 255, 255, 0.07);
-  --border: rgba(255, 255, 255, 0.08);
-  --border-glow: rgba(0, 212, 255, 0.3);
-  --text-primary: #f0f4ff;
-  --text-secondary: #8892b0;
-  --text-muted: #4a5568;
+  --orange: #ff6b2b;
+  --bg-primary: #03050f;
+  --bg-secondary: #080d1c;
+  --bg-card: rgba(255, 255, 255, 0.035);
+  --bg-card-hover: rgba(0, 212, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.07);
+  --border-glow: rgba(0, 212, 255, 0.35);
+  --text-primary: #e8eeff;
+  --text-secondary: #7a8599;
+  --text-muted: #3d4a60;
   --gradient-main: linear-gradient(135deg, var(--cyan), var(--purple));
   --gradient-warm: linear-gradient(135deg, var(--purple), var(--pink));
-  --shadow-glow: 0 0 40px rgba(0, 212, 255, 0.15);
-  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --gradient-code: linear-gradient(135deg, #00e676, #00d4ff);
+  --shadow-glow: 0 0 50px rgba(0, 212, 255, 0.18);
+  --shadow-card: 0 8px 40px rgba(0, 0, 0, 0.5);
   --radius: 16px;
   --radius-sm: 8px;
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -37,6 +39,9 @@ html {
 body {
   font-family: 'Inter', sans-serif;
   background-color: var(--bg-primary);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -20%, rgba(124, 77, 255, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 90% 80%, rgba(0, 212, 255, 0.08) 0%, transparent 50%);
   color: var(--text-primary);
   overflow-x: hidden;
   line-height: 1.6;
@@ -1668,4 +1673,215 @@ ul {
   .hero-content {
     display: block;
   }
+
+  /* Team responsive */
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   TECH BACKGROUND VISUALS
+   ============================================================ */
+
+/* Canvas sits behind everything */
+#bgCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Dot-grid overlay */
+#gridOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, rgba(0, 212, 255, 0.18) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.25;
+  mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 40%, transparent 100%);
+}
+
+/* Floating code snippet decorations */
+.code-deco {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--cyan);
+  opacity: 0.07;
+  pointer-events: none;
+  user-select: none;
+  white-space: pre;
+  animation: drift-code 18s linear infinite;
+}
+
+.code-deco.purple {
+  color: var(--purple);
+  opacity: 0.06;
+}
+
+.code-deco.green {
+  color: var(--green);
+  opacity: 0.06;
+}
+
+@keyframes drift-code {
+  0% {
+    transform: translateY(0px) rotate(-2deg);
+    opacity: 0;
+  }
+
+  5% {
+    opacity: 0.07;
+  }
+
+  90% {
+    opacity: 0.05;
+  }
+
+  100% {
+    transform: translateY(-80px) rotate(-2deg);
+    opacity: 0;
+  }
+}
+
+/* Terminal window style for featured cards */
+.terminal-card {
+  position: relative;
+}
+
+.terminal-card::before {
+  content: '● ● ●';
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  font-size: 10px;
+  color: transparent;
+  text-shadow: 0 0 0 #ff5f57, 10px 0 0 #ffbd2e, 22px 0 0 #28ca41;
+  letter-spacing: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.terminal-card .about-icon,
+.terminal-card h3 {
+  padding-top: 16px;
+}
+
+/* Glowing border on scroll-triggered cards */
+.fade-up.visible.tech-glow {
+  box-shadow: 0 0 0 1px rgba(0, 212, 255, 0.2), 0 8px 40px rgba(0, 212, 255, 0.08);
+}
+
+/* Hero section code decoration spots */
+.hero {
+  position: relative;
+}
+
+.hero-code-ring {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--cyan);
+  opacity: 0.13;
+  pointer-events: none;
+  user-select: none;
+  white-space: pre;
+  line-height: 1.9;
+  border: 1px solid rgba(0, 212, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px 16px;
+  background: rgba(0, 212, 255, 0.02);
+  backdrop-filter: blur(4px);
+  animation: pulse-code 6s ease-in-out infinite;
+}
+
+@keyframes pulse-code {
+
+  0%,
+  100% {
+    opacity: 0.10;
+    transform: translateY(0);
+  }
+
+  50% {
+    opacity: 0.18;
+    transform: translateY(-6px);
+  }
+}
+
+/* Scanline subtle overlay on body */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: repeating-linear-gradient(0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.015) 2px,
+      rgba(0, 0, 0, 0.015) 4px);
+  pointer-events: none;
+}
+
+/* Neon section divider glow */
+.section-header::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 2px;
+  background: var(--gradient-main);
+  border-radius: 2px;
+  margin: 20px auto 0;
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.5);
+}
+
+/* Code tag highlights inside cards */
+.code-tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 2px 8px;
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 4px;
+  color: var(--cyan);
+  margin-top: 4px;
+}
+
+/* Enhanced glass card border on hover — circuit glow */
+.glass-card {
+  position: relative;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg,
+      rgba(0, 212, 255, 0.06) 0%,
+      transparent 50%,
+      rgba(124, 77, 255, 0.04) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.glass-card:hover::before {
+  opacity: 1;
 }
