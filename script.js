@@ -102,8 +102,8 @@ const counterObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.5 });
 
 // Register all fade-up elements
-const fadeIds = ['ac1','ac2','ac3','fi1','fi2','fi3','fi4','fc1','fc2','fc3',
-                 'ev1','ev2','ev3','ev4','gh1','ci1','ci2'];
+const fadeIds = ['ac1', 'ac2', 'ac3', 'fi1', 'fi2', 'fi3', 'fi4', 'fc1', 'fc2', 'fc3',
+  'ev1', 'ev2', 'ev3', 'ev4', 'gh1', 'ci1', 'ci2'];
 fadeIds.forEach(id => {
   const el = document.getElementById(id);
   if (el) { el.classList.add('fade-up'); fadeUpObserver.observe(el); }
@@ -123,22 +123,60 @@ document.querySelectorAll('.about-grid, .focus-grid, .about-features, .social-gr
   });
 });
 
-// ===== CONTACT FORM =====
+// ===== CONTACT FORM (Web3Forms) =====
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {
-  contactForm.addEventListener('submit', (e) => {
+  contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = document.getElementById('submitBtn');
     const originalText = btn.innerHTML;
-    btn.innerHTML = '<span>Gönderildi! ✓</span>';
-    btn.style.background = 'linear-gradient(135deg, #00e676, #00bcd4)';
+
+    // Gönderiliyor durumu
+    btn.innerHTML = '<span>Gönderiliyor...</span>';
     btn.disabled = true;
-    setTimeout(() => {
-      btn.innerHTML = originalText;
-      btn.style.background = '';
+
+    const formData = new FormData(contactForm);
+    formData.append('access_key', '8b1e068f-195d-474f-98ea-4aab75767259');
+
+    // Konu seçimini okunaklı hale getir
+    const subjectMap = {
+      uyelik: 'Üyelik Başvurusu',
+      etkinlik: 'Etkinlik Bilgisi',
+      proje: 'Proje İşbirliği',
+      diger: 'Diğer',
+    };
+    const rawSubject = formData.get('subject');
+    formData.set('subject', `[Arel Yazılım] ${subjectMap[rawSubject] || rawSubject || 'İletişim Formu'}`);
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        btn.innerHTML = '<span>Mesaj Gönderildi! ✓</span>';
+        btn.style.background = 'linear-gradient(135deg, #00e676, #00bcd4)';
+        contactForm.reset();
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.style.background = '';
+          btn.disabled = false;
+        }, 4000);
+      } else {
+        throw new Error(data.message || 'Gönderme başarısız');
+      }
+    } catch (err) {
+      console.error('Form hatası:', err);
+      btn.innerHTML = '<span>Hata! Tekrar dene ✗</span>';
+      btn.style.background = 'linear-gradient(135deg, #ff5252, #ff1744)';
       btn.disabled = false;
-      contactForm.reset();
-    }, 3000);
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.style.background = '';
+      }, 3000);
+    }
   });
 }
 
