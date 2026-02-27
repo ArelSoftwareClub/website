@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arel Admin Panel</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --bg: #03050f;
+            --bg2: #080d1c;
+            --bg3: #0d1426;
+            --cyan: #00d4ff;
+            --purple: #7c4dff;
+            --green: #00e676;
+            --red: #ff5252;
+            --orange: #ff9500;
+            --border: rgba(255, 255, 255, 0.07);
+            --border-glow: rgba(0, 212, 255, 0.3);
+            --text: #e8eeff;
+            --muted: #7a8599;
+            --card: rgba(255, 255, 255, 0.035);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit
+        }
+
+        /* LOGIN */
+        #loginPage {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 100vh;
+            background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(124, 77, 255, .15), transparent 60%);
+        }
+
+        .login-box {
+            width: 400px;
+            padding: 40px;
+            border-radius: 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(16px);
+        }
+
+        .login-box h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 6px
+        }
+
+        .login-box p {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 28px
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 16px
+        }
+
+        .field label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .8px
+        }
+
+        .field input {
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: border-color .2s;
+            outline: none;
+        }
+
+        .field input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, .1)
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity .2s, transform .2s;
+        }
+
+        .btn-login:hover {
+            opacity: .9;
+            transform: translateY(-1px)
+        }
+
+        .login-err {
+            color: var(--red);
+            font-size: 13px;
+            text-align: center;
+            margin-top: 12px;
+            display: none
+        }
+
+        /* SIDEBAR */
+        #appPage {
+            display: none;
+            width: 100%;
+            min-height: 100vh
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh
+        }
+
+        .sidebar {
+            width: 240px;
+            flex-shrink: 0;
+            background: var(--bg2);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 24px 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 20px 24px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 12px
+        }
+
+        .sidebar-logo span {
+            font-size: 15px;
+            font-weight: 700
+        }
+
+        .sidebar-logo .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+            animation: pulse 2s infinite
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .5
+            }
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all .2s;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-link:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, .03)
+        }
+
+        .nav-link.active {
+            color: var(--cyan);
+            background: rgba(0, 212, 255, .07);
+            border-left-color: var(--cyan)
+        }
+
+        .nav-icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 16px 20px;
+            border-top: 1px solid var(--border)
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid rgba(255, 82, 82, .3);
+            border-radius: 8px;
+            background: rgba(255, 82, 82, .08);
+            color: var(--red);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 82, 82, .15)
+        }
+
+        /* MAIN */
+        .main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 32px
+        }
+
+        .page {
+            display: none
+        }
+
+        .page.active {
+            display: block
+        }
+
+        .page-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 4px
+        }
+
+        .page-sub {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 28px
+        }
+
+        /* STAT CARDS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 28px
+        }
+
+        .stat-card {
+            padding: 20px 24px;
+            border-radius: 14px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            transition: border-color .2s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--border-glow)
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            margin-bottom: 8px
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800
+        }
+
+        .stat-value.cyan {
+            color: var(--cyan)
+        }
+
+        .stat-value.purple {
+            color: var(--purple)
+        }
+
+        .stat-value.green {
+            color: var(--green)
+        }
+
+        .stat-value.red {
+            color: var(--red)
+        }
+
+        /* TABLE */
+        .table-wrap {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 24px
+        }
+
+        .table-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .table-title {
+            font-size: 15px;
+            font-weight: 600
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px
+        }
+
+        th {
+            padding: 10px 16px;
+            text-align: left;
+            color: var(--muted);
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            border-bottom: 1px solid var(--border)
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, .04)
+        }
+
+        tr:last-child td {
+            border-bottom: none
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, .02)
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px
+        }
+
+        .badge.admin {
+            background: rgba(124, 77, 255, .2);
+            color: var(--purple)
+        }
+
+        .badge.user {
+            background: rgba(0, 212, 255, .12);
+            color: var(--cyan)
+        }
+
+        .badge.access {
+            background: rgba(0, 212, 255, .1);
+            color: var(--cyan)
+        }
+
+        .badge.security {
+            background: rgba(255, 149, 0, .15);
+            color: var(--orange)
+        }
+
+        .badge.error {
+            background: rgba(255, 82, 82, .15);
+            color: var(--red)
+        }
+
+        .badge.auth {
+            background: rgba(0, 230, 118, .12);
+            color: var(--green)
+        }
+
+        .badge.unread {
+            background: rgba(255, 149, 0, .15);
+            color: var(--orange)
+        }
+
+        .badge.read {
+            background: rgba(0, 230, 118, .1);
+            color: var(--green)
+        }
+
+        .badge.active {
+            background: rgba(0, 230, 118, .12);
+            color: var(--green)
+        }
+
+        .badge.inactive {
+            background: rgba(255, 82, 82, .12);
+            color: var(--red)
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px
+        }
+
+        .truncate {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+
+        .action-btn {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid;
+            transition: all .2s;
+            background: none;
+        }
+
+        .action-btn.danger {
+            color: var(--red);
+            border-color: rgba(255, 82, 82, .3)
+        }
+
+        .action-btn.danger:hover {
+            background: rgba(255, 82, 82, .1)
+        }
+
+        .action-btn.success {
+            color: var(--green);
+            border-color: rgba(0, 230, 118, .3)
+        }
+
+        .action-btn.success:hover {
+            background: rgba(0, 230, 118, .1)
+        }
+
+        /* LOG FILTER */
+        .filter-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px
+        }
+
+        .filter-btn {
+            padding: 6px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: none;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .filter-btn.active {
+            background: rgba(0, 212, 255, .1);
+            border-color: var(--cyan);
+            color: var(--cyan)
+        }
+
+        /* SERVER INFO */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px
+        }
+
+        .info-card {
+            padding: 20px;
+            border-radius: 14px;
+            background: var(--card);
+            border: 1px solid var(--border);
+        }
+
+        .info-card .key {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .6px
+        }
+
+        .info-card .val {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--cyan)
+        }
+
+        /* REFRESH */
+        .refresh-btn {
+            padding: 7px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border-glow);
+            background: rgba(0, 212, 255, .08);
+            color: var(--cyan);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .refresh-btn:hover {
+            background: rgba(0, 212, 255, .15)
+        }
+
+        /* TOAST */
+        #toastArea {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .toast {
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            backdrop-filter: blur(12px);
+            border: 1px solid;
+            animation: slideIn .3s ease;
+        }
+
+        .toast.success {
+            background: rgba(0, 230, 118, .12);
+            border-color: rgba(0, 230, 118, .3);
+            color: #e8eeff
+        }
+
+        .toast.error {
+            background: rgba(255, 82, 82, .12);
+            border-color: rgba(255, 82, 82, .3);
+            color: #e8eeff
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1
+            }
+        }
+
+        @media(max-width:900px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .sidebar {
+                width: 200px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LOGIN PAGE -->
+    <div id="loginPage">
+        <div class="login-box">
+            <h1>🛡️ Admin Panel</h1>
+            <p>Arel Yazılım Yönetim Paneli</p>
+            <div class="field">
+                <label>E-posta</label>
+                <input type="email" id="loginEmail" placeholder="admin@arel.edu.tr" autocomplete="username" />
+            </div>
+            <div class="field">
+                <label>Şifre</label>
+                <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" />
+            </div>
+            <button class="btn-login" onclick="doLogin()">Giriş Yap</button>
+            <div class="login-err" id="loginErr"></div>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="appPage">
+        <div class="layout">
+
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+                <div class="sidebar-logo">
+                    <span class="dot"></span>
+                    <span>Arel Admin</span>
+                </div>
+                <a class="nav-link active" onclick="switchPage('dashboard')"><span
+                        class="nav-icon">📊</span>Dashboard</a>
+                <a class="nav-link" onclick="switchPage('logs')"><span class="nav-icon">📋</span>Log Kayıtları</a>
+                <a class="nav-link" onclick="switchPage('contacts')"><span class="nav-icon">✉️</span>Mesajlar <span
+                        id="unreadBadge"
+                        style="margin-left:auto;background:var(--orange);color:#000;border-radius:50px;padding:1px 7px;font-size:10px;font-weight:700;display:none"></span></a>
+                <a class="nav-link" onclick="switchPage('users')"><span class="nav-icon">👥</span>Kullanıcılar</a>
+                <a class="nav-link" onclick="switchPage('sessions')"><span class="nav-icon">🔑</span>Oturumlar</a>
+                <a class="nav-link" onclick="switchPage('server')"><span class="nav-icon">🖥️</span>Sunucu</a>
+                <div class="sidebar-footer">
+                    <div id="adminName" style="font-size:13px;color:var(--muted);margin-bottom:10px">—</div>
+                    <button class="logout-btn" onclick="doLogout()">Çıkış Yap</button>
+                </div>
+            </aside>
+
+            <!-- MAIN CONTENT -->
+            <main class="main">
+
+                <!-- DASHBOARD -->
+                <div id="page-dashboard" class="page active">
+                    <div class="page-title">Dashboard</div>
+                    <div class="page-sub">Genel bakış</div>
+                    <div class="stats-grid" id="statsGrid">
+                        <div class="stat-card">
+                            <div class="stat-label">Kullanıcılar</div>
+                            <div class="stat-value cyan" id="st-users">—</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Mesajlar</div>
+                            <div class="stat-value purple" id="st-contacts">—</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Okunmamış</div>
+                            <div class="stat-value red" id="st-unread">—</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Toplam Log</div>
+                            <div class="stat-value green" id="st-logs">—</div>
+                        </div>
+                    </div>
+                    <div class="stats-grid" style="grid-template-columns:1fr 1fr">
+                        <div class="stat-card">
+                            <div class="stat-label">Son 1Sa Hata</div>
+                            <div class="stat-value red" id="st-errors">—</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Uptime</div>
+                            <div class="stat-value green" id="st-uptime">—</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LOGS -->
+                <div id="page-logs" class="page">
+                    <div class="page-title">Log Kayıtları</div>
+                    <div class="page-sub">Tüm HTTP istekleri, hatalar ve güvenlik olayları</div>
+                    <div class="filter-row">
+                        <button class="filter-btn active" onclick="loadLogs(null,this)">Tümü</button>
+                        <button class="filter-btn" onclick="loadLogs('ACCESS',this)">ACCESS</button>
+                        <button class="filter-btn" onclick="loadLogs('ERROR',this)">ERROR</button>
+                        <button class="filter-btn" onclick="loadLogs('SECURITY',this)">SECURITY</button>
+                        <button class="filter-btn" onclick="loadLogs('AUTH',this)">AUTH</button>
+                        <button class="refresh-btn" style="margin-left:auto" onclick="loadLogs(currentLogType)">↻
+                            Yenile</button>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Zaman</th>
+                                    <th>Tür</th>
+                                    <th>Yöntem</th>
+                                    <th>Path</th>
+                                    <th>Status</th>
+                                    <th>IP</th>
+                                    <th>Ms</th>
+                                    <th>Mesaj</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logsBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- CONTACTS -->
+                <div id="page-contacts" class="page">
+                    <div class="page-title">İletişim Mesajları</div>
+                    <div class="page-sub">Kullanıcılardan gelen mesajlar</div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Zaman</th>
+                                    <th>Ad</th>
+                                    <th>E-posta</th>
+                                    <th>Konu</th>
+                                    <th>Mesaj</th>
+                                    <th>IP</th>
+                                    <th>Durum</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contactsBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- USERS -->
+                <div id="page-users" class="page">
+                    <div class="page-title">Kullanıcılar</div>
+                    <div class="page-sub">Kayıtlı kullanıcı listesi</div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Kullanıcı Adı</th>
+                                    <th>E-posta</th>
+                                    <th>Rol</th>
+                                    <th>Kayıt</th>
+                                    <th>Son Giriş</th>
+                                    <th>Durum</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SESSIONS -->
+                <div id="page-sessions" class="page">
+                    <div class="page-title">Aktif Oturumlar</div>
+                    <div class="page-sub">JWT oturum kayıtları</div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Kullanıcı</th>
+                                    <th>IP</th>
+                                    <th>Oluşturulma</th>
+                                    <th>Süre Bitimi</th>
+                                    <th>Durum</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sessionsBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SERVER -->
+                <div id="page-server" class="page">
+                    <div class="page-title">Sunucu Bilgisi</div>
+                    <div class="page-sub">Sistem ve runtime istatistikleri</div>
+                    <div class="info-grid" id="serverInfo"></div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <div id="toastArea"></div>
+
+    <script>
+        const API = '/api';
+        let token = localStorage.getItem('arel_admin_token');
+        let currentLogType = null;
+
+        // ── TOAST ────────────────────────────────────
+        function toast(msg, type = 'success') {
+            const el = document.createElement('div');
+            el.className = `toast ${type}`;
+            el.textContent = msg;
+            document.getElementById('toastArea').appendChild(el);
+            setTimeout(() => el.remove(), 3500);
+        }
+
+        // ── API HELPER ───────────────────────────────
+        async function api(path, opts = {}) {
+            const res = await fetch(API + path, {
+                headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+                ...opts,
+            });
+            return res.json();
+        }
+
+        // ── LOGIN ────────────────────────────────────
+        document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+        async function doLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPass').value;
+            const err = document.getElementById('loginErr');
+            err.style.display = 'none';
+
+            const data = await api('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) });
+            if (!data.success) { err.textContent = data.error; err.style.display = 'block'; return; }
+            if (data.user.role !== 'admin') { err.textContent = 'Bu panele erişim yetkiniz yok.'; err.style.display = 'block'; return; }
+
+            token = data.token;
+            localStorage.setItem('arel_admin_token', token);
+            document.getElementById('adminName').textContent = `👤 ${data.user.username}`;
+            showApp();
+        }
+
+        function showApp() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('appPage').style.display = 'block';
+            loadDashboard();
+        }
+
+        // Auto-login if token exists
+        if (token) {
+            api('/auth/me').then(d => {
+                if (d.success && d.user.role === 'admin') {
+                    document.getElementById('adminName').textContent = `👤 ${d.user.username}`;
+                    showApp();
+                } else {
+                    localStorage.removeItem('arel_admin_token');
+                    token = null;
+                }
+            });
+        }
+
+        // ── LOGOUT ───────────────────────────────────
+        async function doLogout() {
+            await api('/auth/logout', { method: 'POST' });
+            localStorage.removeItem('arel_admin_token');
+            token = null;
+            location.reload();
+        }
+
+        // ── PAGE SWITCH ──────────────────────────────
+        function switchPage(name) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.getElementById(`page-${name}`).classList.add('active');
+            event.currentTarget.classList.add('active');
+
+            if (name === 'logs') loadLogs(currentLogType);
+            if (name === 'contacts') loadContacts();
+            if (name === 'users') loadUsers();
+            if (name === 'sessions') loadSessions();
+            if (name === 'server') loadServer();
+        }
+
+        // ── DASHBOARD ────────────────────────────────
+        async function loadDashboard() {
+            const d = await api('/admin/stats');
+            if (!d.success) return;
+            const s = d.stats;
+            document.getElementById('st-users').textContent = s.users;
+            document.getElementById('st-contacts').textContent = s.contacts;
+            document.getElementById('st-unread').textContent = s.unread;
+            document.getElementById('st-logs').textContent = s.totalLogs;
+            document.getElementById('st-errors').textContent = s.recentErrors;
+            document.getElementById('st-uptime').textContent = fmtUptime(s.uptime);
+            if (s.unread > 0) { const b = document.getElementById('unreadBadge'); b.textContent = s.unread; b.style.display = 'inline'; }
+        }
+
+        function fmtUptime(s) {
+            const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = Math.floor(s % 60);
+            return `${h}s ${m}d ${sec}s`;
+        }
+
+        // ── LOGS ─────────────────────────────────────
+        async function loadLogs(type = null, btn = null) {
+            currentLogType = type;
+            if (btn) { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
+            const url = type ? `/admin/logs?type=${type}&limit=100` : '/admin/logs?limit=100';
+            const d = await api(url);
+            if (!d.success) return;
+            const tbody = document.getElementById('logsBody');
+            tbody.innerHTML = d.logs.map(l => `
+    <tr>
+      <td class="mono" style="white-space:nowrap;font-size:11px">${l.created_at}</td>
+      <td><span class="badge ${l.type.toLowerCase()}">${l.type}</span></td>
+      <td class="mono">${l.method || '—'}</td>
+      <td class="mono truncate">${l.path || '—'}</td>
+      <td><span style="color:${l.status >= 500 ? 'var(--red)' : l.status >= 400 ? 'var(--orange)' : 'var(--green)'}">${l.status || '—'}</span></td>
+      <td class="mono">${l.ip || '—'}</td>
+      <td class="mono">${l.duration || 0}</td>
+      <td class="truncate" style="max-width:180px">${l.message || '—'}</td>
+    </tr>`).join('');
+        }
+
+        // ── CONTACTS ─────────────────────────────────
+        async function loadContacts() {
+            const d = await api('/admin/contacts');
+            if (!d.success) return;
+            document.getElementById('contactsBody').innerHTML = d.contacts.map(c => `
+    <tr>
+      <td class="mono" style="font-size:11px;white-space:nowrap">${c.created_at}</td>
+      <td>${c.name}</td>
+      <td>${c.email}</td>
+      <td>${c.subject || '—'}</td>
+      <td class="truncate">${c.message}</td>
+      <td class="mono">${c.ip_address || '—'}</td>
+      <td><span class="badge ${c.is_read ? 'read' : 'unread'}">${c.is_read ? 'Okundu' : 'Yeni'}</span></td>
+      <td style="display:flex;gap:4px">
+        ${!c.is_read ? `<button class="action-btn success" onclick="markRead(${c.id})">✓ Oku</button>` : ''}
+        <button class="action-btn danger" onclick="deleteContact(${c.id})">Sil</button>
+      </td>
+    </tr>`).join('');
+        }
+
+        async function markRead(id) {
+            await api(`/admin/contacts/${id}/read`, { method: 'PATCH' });
+            toast('Mesaj okundu olarak işaretlendi.');
+            loadContacts();
+        }
+        async function deleteContact(id) {
+            if (!confirm('Bu mesajı silmek istediğinizden emin misiniz?')) return;
+            await api(`/admin/contacts/${id}`, { method: 'DELETE' });
+            toast('Mesaj silindi.', 'error');
+            loadContacts();
+        }
+
+        // ── USERS ────────────────────────────────────
+        async function loadUsers() {
+            const d = await api('/admin/users');
+            if (!d.success) return;
+            document.getElementById('usersBody').innerHTML = d.users.map(u => `
+    <tr>
+      <td class="mono">${u.id}</td>
+      <td>${u.username}</td>
+      <td>${u.email}</td>
+      <td><span class="badge ${u.role}">${u.role}</span></td>
+      <td class="mono" style="font-size:11px">${u.created_at}</td>
+      <td class="mono" style="font-size:11px">${u.last_login || '—'}</td>
+      <td><span class="badge ${u.is_active ? 'active' : 'inactive'}">${u.is_active ? 'Aktif' : 'Pasif'}</span></td>
+      <td>
+        <button class="action-btn ${u.is_active ? 'danger' : 'success'}" onclick="toggleUser(${u.id},${u.is_active ? 0 : 1})">
+          ${u.is_active ? 'Devre Dışı' : 'Aktifleştir'}
+        </button>
+      </td>
+    </tr>`).join('');
+        }
+
+        async function toggleUser(id, active) {
+            await api(`/admin/users/${id}`, { method: 'PATCH', body: JSON.stringify({ is_active: active }) });
+            toast(active ? 'Kullanıcı aktifleştirildi.' : 'Kullanıcı devre dışı bırakıldı.', active ? 'success' : 'error');
+            loadUsers();
+        }
+
+        // ── SESSIONS ─────────────────────────────────
+        async function loadSessions() {
+            const d = await api('/admin/sessions');
+            if (!d.success) return;
+            document.getElementById('sessionsBody').innerHTML = d.sessions.map(s => `
+    <tr>
+      <td class="mono">${s.id}</td>
+      <td>${s.email}</td>
+      <td class="mono">${s.ip || '—'}</td>
+      <td class="mono" style="font-size:11px">${s.created_at}</td>
+      <td class="mono" style="font-size:11px">${s.expires_at}</td>
+      <td><span class="badge ${s.revoked ? 'inactive' : 'active'}">${s.revoked ? 'İptal' : 'Aktif'}</span></td>
+    </tr>`).join('');
+        }
+
+        // ── SERVER INFO ──────────────────────────────
+        async function loadServer() {
+            const health = await api('/health');
+            const stats = await api('/admin/stats');
+            const s = stats.stats;
+            const items = [
+                { k: 'Node.js Versiyonu', v: health.version },
+                { k: 'Platform', v: s.platform },
+                { k: 'Hostname', v: s.hostname },
+                { k: 'Database', v: health.database },
+                { k: 'Uptime', v: fmtUptime(s.uptime) },
+                { k: 'Heap Used', v: Math.round(s.memory.heapUsed / 1024 / 1024) + ' MB' },
+                { k: 'Heap Total', v: Math.round(s.memory.heapTotal / 1024 / 1024) + ' MB' },
+                { k: 'RSS', v: Math.round(s.memory.rss / 1024 / 1024) + ' MB' },
+            ];
+            document.getElementById('serverInfo').innerHTML = items.map(i => `
+    <div class="info-card">
+      <div class="key">${i.k}</div>
+      <div class="val">${i.v}</div>
+    </div>`).join('');
+        }
+
+        // Auto-refresh dashboard every 30s
+        setInterval(() => {
+            const active = document.querySelector('.page.active');
+            if (active?.id === 'page-dashboard') loadDashboard();
+        }, 30000);
+    </script>
+</body>
+
+</html>
