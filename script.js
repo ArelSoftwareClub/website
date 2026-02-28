@@ -520,23 +520,33 @@ if (contactForm) {
     btn.disabled = true;
 
     const formData = new FormData(contactForm);
-    formData.append('access_key', '8b1e068f-195d-474f-98ea-4aab75767259');
+    const bodyData = Object.fromEntries(formData.entries());
 
     const subjectMap = {
       uyelik: 'Üyelik Başvurusu', etkinlik: 'Etkinlik Bilgisi',
       proje: 'Proje İşbirliği', diger: 'Diğer',
     };
-    const rawSubject = formData.get('subject');
-    formData.set('subject', `[Arel Yazılım] ${subjectMap[rawSubject] || rawSubject || 'İletişim Formu'}`);
+    bodyData.subject = subjectMap[bodyData.subject] || bodyData.subject || 'İletişim Formu';
+
+    // Auto-detect backend URL
+    const BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+      ? 'http://localhost:3000'
+      : 'https://website-production-ff5b.up.railway.app';
 
     try {
-      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
+      const res = await fetch(`${BACKEND_URL}/api/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(bodyData)
+      });
       const data = await res.json();
 
       if (data.success) {
         btn.innerHTML = '<span>Gönderildi! ✓</span>';
         btn.style.background = 'linear-gradient(135deg, #00e676, #00bcd4)';
-        showToast('Mesajınız başarıyla gönderildi! En kısa sürede dönüş yapacağız. 🎉', 'success', 5000);
+        showToast('Mesajınız başarıyla sistemimize ulaştı! En kısa sürede dönüş yapacağız. 🎉', 'success', 5000);
         contactForm.reset();
         setTimeout(() => { btn.innerHTML = originalHTML; btn.style.background = ''; btn.disabled = false; }, 4000);
       } else {
@@ -544,7 +554,7 @@ if (contactForm) {
       }
     } catch (err) {
       console.error('Form hatası:', err);
-      showToast('Mesaj gönderilemedi. Lütfen tekrar deneyin.', 'error');
+      showToast('Mesaj bağlanırken bir hata oluştu. Lütfen tekrar deneyin.', 'error');
       btn.innerHTML = '<span>Hata! Tekrar dene ✗</span>';
       btn.style.background = 'linear-gradient(135deg, #ff5252, #ff1744)';
       btn.disabled = false;
