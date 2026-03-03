@@ -636,6 +636,7 @@ select {
   border-radius: 50%;
   background: radial-gradient(circle, rgba(232, 83, 29, 0.2) 0%, transparent 70%);
   animation: pulse-glow 3.5s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 @keyframes pulse-glow {
@@ -694,6 +695,7 @@ select {
   position: relative;
   z-index: 2;
   animation: float 5s ease-in-out infinite;
+  will-change: transform;
 }
 
 @keyframes float {
@@ -1958,5 +1960,27 @@ select.form-input {
 
   .team-grid-ms {
     grid-template-columns: 1fr;
+  }
+
+  .hero-title {
+    font-size: 32px;
+  }
+}
+
+/* ── Reduced motion: disable all animations for accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .fade-up {
+    opacity: 1;
+    transform: none;
   }
 }
