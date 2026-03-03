@@ -159,6 +159,7 @@ const Toast = (() => {
   const els = document.querySelectorAll('.fade-up');
   if (!els.length) return;
 
+  // Build sibling map for stagger delays
   const parentMap = new Map();
   els.forEach(el => {
     const parent = el.parentElement;
@@ -166,18 +167,32 @@ const Toast = (() => {
     parentMap.get(parent).push(el);
   });
 
+  function reveal(el) {
+    const siblings = parentMap.get(el.parentElement) || [el];
+    const idx = siblings.indexOf(el);
+    setTimeout(() => { el.classList.add('visible'); }, Math.min(idx * 80, 400));
+  }
+
+  // Immediately reveal any elements already in viewport on page load
+  els.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) reveal(el);
+  });
+
+  // Use generous rootMargin so cards trigger before entering viewport
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
-      const el = e.target;
-      const siblings = parentMap.get(el.parentElement) || [el];
-      const idx = siblings.indexOf(el);
-      setTimeout(() => { el.classList.add('visible'); obs.unobserve(el); }, Math.min(idx * 90, 450));
+      obs.unobserve(e.target);
+      reveal(e.target);
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.05, rootMargin: '0px 0px 60px 0px' });
 
-  els.forEach(el => obs.observe(el));
+  els.forEach(el => {
+    if (!el.classList.contains('visible')) obs.observe(el);
+  });
 })();
+
 
 /* ──────────────────────────────────────────────
    COUNTER ANIMATION (ease-out cubic)
