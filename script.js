@@ -649,3 +649,50 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.opacity = '1';
   }, 50);
 });
+
+// ============================================================
+// TEAM CAROUSEL — Drag + Buttons + Dots
+// ============================================================
+(function initTeamCarousel() {
+  const rail = document.getElementById('teamCarousel');
+  const prevBtn = document.getElementById('carouselPrev');
+  const nextBtn = document.getElementById('carouselNext');
+  const dots = document.querySelectorAll('.carousel-dot');
+  if (!rail) return;
+
+  const CARD_W = 260 + 20; // card width + gap
+
+  // Drag to scroll
+  let isDown = false, startX = 0, scrollLeft = 0;
+  rail.addEventListener('mousedown', e => {
+    isDown = true; rail.classList.add('dragging');
+    startX = e.pageX - rail.offsetLeft; scrollLeft = rail.scrollLeft;
+  });
+  document.addEventListener('mouseup', () => { isDown = false; rail.classList.remove('dragging'); });
+  rail.addEventListener('mouseleave', () => { isDown = false; rail.classList.remove('dragging'); });
+  rail.addEventListener('mousemove', e => {
+    if (!isDown) return; e.preventDefault();
+    rail.scrollLeft = scrollLeft - (e.pageX - rail.offsetLeft - startX) * 1.5;
+  });
+
+  // Touch swipe
+  let tx = 0, ts = 0;
+  rail.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ts = rail.scrollLeft; }, { passive: true });
+  rail.addEventListener('touchmove', e => { rail.scrollLeft = ts + (tx - e.touches[0].clientX) * 1.2; }, { passive: true });
+
+  // Prev / Next buttons
+  if (prevBtn) prevBtn.addEventListener('click', () => rail.scrollBy({ left: -CARD_W, behavior: 'smooth' }));
+  if (nextBtn) nextBtn.addEventListener('click', () => rail.scrollBy({ left: CARD_W, behavior: 'smooth' }));
+
+  // Dot click
+  dots.forEach(dot => dot.addEventListener('click', () =>
+    rail.scrollTo({ left: parseInt(dot.dataset.index) * CARD_W, behavior: 'smooth' })
+  ));
+
+  // Sync dots on scroll
+  function updateDots() {
+    const idx = Math.round(rail.scrollLeft / CARD_W);
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  }
+  rail.addEventListener('scroll', debounce(updateDots, 60), { passive: true });
+})();
