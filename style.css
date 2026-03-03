@@ -1984,3 +1984,203 @@ select.form-input {
     transform: none;
   }
 }
+
+/* ============================================================
+   TOAST NOTIFICATION SYSTEM
+   ============================================================ */
+#toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+  max-width: 400px;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: #1a1a1a;
+  color: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.5;
+  pointer-events: all;
+  opacity: 0;
+  transform: translateX(24px);
+  transition: opacity 0.28s ease, transform 0.28s ease;
+  border-left: 3px solid var(--text-muted);
+  min-width: 260px;
+  word-break: break-word;
+}
+
+.toast.toast-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.toast-success {
+  border-left-color: #00b894;
+}
+
+.toast-error {
+  border-left-color: #e17055;
+}
+
+.toast-warning {
+  border-left-color: #fdcb6e;
+}
+
+.toast-info {
+  border-left-color: var(--orange);
+}
+
+.toast-icon {
+  font-size: 15px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.toast-msg {
+  flex: 1;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0 0 4px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+
+.toast-close:hover {
+  color: #fff;
+}
+
+@media (max-width: 480px) {
+  #toast-container {
+    bottom: 12px;
+    right: 12px;
+    left: 12px;
+    max-width: none;
+  }
+}
+
+/* ============================================================
+   PAGE LOAD & ROUTE TRANSITIONS
+   ============================================================ */
+.page-enter {
+  opacity: 0;
+}
+
+.page-enter-active {
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+
+.page-leave {
+  opacity: 0;
+  transition: opacity 0.28s ease;
+  pointer-events: none;
+}
+
+/* ============================================================
+   TYPEWRITER CURSOR
+   ============================================================ */
+.typewriter-cursor {
+  border-right: 2px solid var(--orange);
+  padding-right: 2px;
+  animation: cursor-blink 0.7s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+/* ============================================================
+   CONTACT FORM VALIDATION STATES
+   ============================================================ */
+.form-input.f-valid {
+  border-color: #00b894;
+  box-shadow: 0 0 0 3px rgba(0, 184, 148, 0.08);
+}
+
+.form-input.f-invalid {
+  border-color: #e17055;
+  box-shadow: 0 0 0 3px rgba(225, 112, 85, 0.08);
+}
+
+.f-err {
+  display: block;
+  font-size: 12px;
+  color: #e17055;
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+/* ============================================================
+   IMAGE ZOOM OVERLAY
+   ============================================================ */
+.img-zoom-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: rgba(0, 0, 0, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  cursor: zoom-out;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.img-zoom-overlay.img-zoom-in {
+  opacity: 1;
+}
+
+.img-zoom-target {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+  object-fit: contain;
+  transform: scale(0.88);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.img-zoom-overlay.img-zoom-in .img-zoom-target {
+  transform: scale(1);
+}
+
+/* ============================================================
+   HAMBURGER → X ANIMATION
+   ============================================================ */
+.hamburger.is-open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.is-open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.hamburger.is-open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
