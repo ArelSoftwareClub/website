@@ -506,9 +506,9 @@ ul {
 
 .brain-glow {
   position: absolute;
-  width: 280px;
-  height: 280px;
-  background: radial-gradient(circle, rgba(124, 77, 255, 0.3) 0%, rgba(0, 212, 255, 0.1) 50%, transparent 70%);
+  width: 310px;
+  height: 310px;
+  background: radial-gradient(circle, rgba(232, 83, 29, 0.25) 0%, rgba(255, 154, 92, 0.12) 50%, transparent 70%);
   border-radius: 50%;
   animation: pulse-glow 3s ease-in-out infinite;
 }
@@ -528,12 +528,18 @@ ul {
 }
 
 .brain-img {
-  width: 220px;
-  height: 220px;
+  width: 270px;
+  height: 270px;
   object-fit: contain;
   position: relative;
   z-index: 2;
-  filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.4));
+  border-radius: 24px;
+  background: #ffffff;
+  padding: 16px;
+  box-shadow:
+    0 0 40px rgba(232, 83, 29, 0.35),
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 0 2px rgba(232, 83, 29, 0.2);
   animation: float-brain 4s ease-in-out infinite;
 }
 
