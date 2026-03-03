@@ -389,9 +389,12 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 ────────────────────────────────────────────── */
 (function initCopyrightYear() {
   const year = new Date().getFullYear();
-  document.querySelectorAll('span, p, footer').forEach(el => {
-    if (!el.childElementCount && el.textContent.includes('© 2025')) {
-      el.textContent = el.textContent.replace('© 2025', `© ${year}`);
+  // Update all .copyright-year spans (preferred method)
+  document.querySelectorAll('.copyright-year').forEach(el => { el.textContent = year; });
+  // Fallback: find any remaining hardcoded 2025 years in footer/spans
+  document.querySelectorAll('footer, span, p').forEach(el => {
+    if (!el.childElementCount && el.textContent.trim().startsWith('©') && el.textContent.includes('2025')) {
+      el.textContent = el.textContent.replace('2025', year);
     }
   });
 })();

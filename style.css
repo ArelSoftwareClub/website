@@ -165,9 +165,27 @@ select {
   margin-bottom: 48px;
 }
 
+/* ──────────────────────────────────────────────
+   SCROLL-REVEAL ANIMATION SYSTEM
+   .fade-up: initial hidden state
+   .fade-up.visible: animated final state (added by JS IntersectionObserver)
+────────────────────────────────────────────── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .section-header.center {
   text-align: center;
 }
+
 
 .section-header.center .section-desc {
   margin: 0 auto;
