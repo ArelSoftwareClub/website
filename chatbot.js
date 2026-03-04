@@ -1,82 +1,111 @@
 /* ============================================================
-   AREL YAZILIM KULÜBÜ — Gemini AI Chatbot Widget
-   Self-contained: injects HTML + CSS, calls Gemini 2.0 Flash
+   AREL YAZILIM KULÜBÜ — Akıllı Chatbot Widget (Offline / Rule-Based)
+   API'ye bağımlı değil — tüm yanıtlar yerelde hesaplanır
    ============================================================ */
 
 (function () {
-    'use strict';
+  'use strict';
 
-    /* ── CONFIG ─────────────────────────────────────────────── */
-    const GEMINI_API_KEY = 'AIzaSyDE7E2LMtqDD2pH10OM2JXRHAsplN-FqvE';
-    const GEMINI_MODEL = 'gemini-2.0-flash';
-    const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+  /* ── SUGGESTIONS ─────────────────────────────────────────── */
+  const SUGGESTIONS = [
+    'Kulübe nasıl katılabilirim?',
+    'Yaklaşan etkinlikler neler?',
+    'Hangi teknolojiler öğretiliyor?',
+    'Ekip kimlerden oluşuyor?',
+    'İletişim bilgileri nedir?',
+    'Hackathon\'a katılabilir miyim?',
+  ];
 
-    /* ── CLUB SYSTEM CONTEXT (Turkish) ──────────────────────── */
-    const SYSTEM_CONTEXT = `
-Sen Arel Yazılım Kulübü'nün (AYK) yapay zeka asistanısın. Sana kulüp hakkında kapsamlı bilgi veriyorum; bu bilgilere dayanarak Türkçe olarak yardımcı ol.
+  /* ── KNOWLEDGE BASE ──────────────────────────────────────── */
+  const KB = [
+    /* Katılım / Üyelik */
+    {
+      keys: ['katıl', 'üye', 'kayıt', 'başvur', 'join', 'nasıl katıl', 'üyelik'],
+      answer: `🎉 **Kulübe Katılmak Çok Kolay!**\n\nÜyelik tamamen **ücretsiz** ve tüm İstanbul Arel Üniversitesi öğrencilerine açık.\n\n**Başvuru yolları:**\n• 📝 [İletişim formu](iletisim.html) üzerinden başvuru yapın\n• 📸 Instagram'dan DM gönderin → [@arel.yazilim](https://instagram.com/arel.yazilim)\n• ✉️ E-posta: yazilimkulubu@istanbularel.edu.tr\n\nBaşvurunuzun ardından ekip sizinle iletişime geçecektir! 🚀`,
+    },
+    /* Etkinlikler */
+    {
+      keys: ['etkinlik', 'workshop', 'seminer', 'hackathon', 'event', 'yaklaşan', 'program'],
+      answer: `📅 **Etkinliklerimiz**\n\n**Yaklaşan Etkinlikler:**\n• ⚛️ React Modern Web Uygulamaları Workshop — 15 kişilik kontenjan\n• 🗺️ Yazılım Kariyeri Yol Haritası Semineri\n\n**Geçmiş Etkinlikler:**\n• 🖥️ İşlemcilerin İsimlendirilmesi (60+ katılımcı)\n• 🤖 AI Trendleri Semineri (80+ katılımcı)\n• 🐍 Python ile Veri Analizi Workshop (25 kişi)\n• 🏆 İstanbul Üniversite Hackathonu — **En İyi Sunum** ödülü\n• 🐙 Git & GitHub Workshop\n\nDetaylar için [Etkinlikler](etkinlikler.html) sayfasını ziyaret edin!`,
+    },
+    /* Teknolojiler / Odak Alanları */
+    {
+      keys: ['teknoloji', 'öğret', 'alan', 'konu', 'yapay zeka', 'ai', 'ml', 'python', 'react', 'veri', 'yazılım', 'odak'],
+      answer: `💻 **Öğrenebileceğiniz Teknolojiler**\n\n**🤖 Yapay Zeka & Makine Öğrenmesi**\nPython, TensorFlow, PyTorch, Scikit-learn, NLP, Derin Öğrenme\n\n**⚙️ Yazılım Geliştirme**\nFrontend: React, Vue.js, Next.js\nBackend: Node.js, Python, FastAPI\nDevOps: Docker, Kubernetes, CI/CD\nVeritabanı: PostgreSQL, MongoDB\n\n**📊 Veri Bilimi**\nPandas, SQL, Tableau, Apache Spark, Veri Analizi & Görselleştirme\n\nDetaylar için [Odak Alanları](odak-alanlari.html) sayfasına bakabilirsiniz!`,
+    },
+    /* Ekip */
+    {
+      keys: ['ekip', 'yönetim', 'başkan', 'kim', 'üyeler', 'kadro', 'takım'],
+      answer: `👥 **Yönetim Kadromuz**\n\n• 👑 **Kerim Can Karadağ** — Başkan (Yazılım Müh. 2. Sınıf)\n• 🎯 **Muhammed Sina Gün** — Genel Koordinatör (Bilgisayar Müh. 2. Sınıf)\n• 🔧 **Eren Bahadır** — CTO (Bilgisayar Müh. 3. Sınıf)\n• 🤝 **Mahsun Ulusal** — Başkan Yardımcısı (Yazılım Müh. 2. Sınıf)\n• Ve Teknik, İçerik, Tasarım, Sponsorluk, Sosyal Medya departman sorumluları\n\nTüm ekibi görmek için [Ekip](ekip.html) sayfasını ziyaret edin!`,
+    },
+    /* İletişim */
+    {
+      keys: ['iletişim', 'contact', 'mail', 'email', 'instagram', 'linkedin', 'github', 'twitter', 'sosyal medya', 'ulaş'],
+      answer: `📬 **İletişim Bilgileri**\n\n• ✉️ **E-posta:** yazilimkulubu@istanbularel.edu.tr\n• 📸 **Instagram:** [@arel.yazilim](https://instagram.com/arel.yazilim)\n• 🐦 **X (Twitter):** [@ArelSoftware](https://twitter.com/ArelSoftware)\n• 💼 **LinkedIn:** [Arel Yazılım Kulübü](https://linkedin.com/company/arel-software-club)\n• 🐙 **GitHub:** [github.com/ArelSoftwareClub](https://github.com/ArelSoftwareClub)\n\nDilek ve önerileriniz için [İletişim](iletisim.html) sayfamızı kullanabilirsiniz!`,
+    },
+    /* Hakkında / Genel */
+    {
+      keys: ['hakkında', 'nedir', 'kulüp', 'ayk', 'arel', 'ne zaman', 'kurul', 'misyon', 'vizyon', 'tarih'],
+      answer: `🏛️ **Arel Yazılım Kulübü (AYK) Hakkında**\n\nİstanbul Arel Üniversitesi bünyesinde **2022** yılında kurulan yazılım topluluğuyuz.\n\n📍 **Konum:** Tepekent Kemal Gözükara Yerleşkesi, Büyükçekmece / İstanbul\n\n**📊 Rakamlarla AYK:**\n• 197+ aktif üye\n• 20+ düzenlenen etkinlik\n• 3 temel odak alanı\n• 2022'den beri aktif\n\n**🎯 Misyonumuz:** Öğrencilerin teknik becerilerini geliştirmek, endüstri bağlantıları kurmak ve yazılım kültürü oluşturmak.\n\nDaha fazlası için [Hakkımızda](hakkimizda.html) sayfasına göz atın!`,
+    },
+    /* Hackathon */
+    {
+      keys: ['hackathon', 'yarışma', 'proje', 'ödül', 'katıl'],
+      answer: `🏆 **Hackathon & Yarışmalar**\n\nEvet, kulüp üyeleri olarak hackathonlara birlikte katılıyoruz! Geçmişte **İstanbul Üniversite Hackathonu**'nda **En İyi Sunum** ödülünü kazandık. 🥇\n\nYaklaşan yarışmalar ve etkinlikler için:\n• [Etkinlikler](etkinlikler.html) sayfamıza bakın\n• Instagram'ı takip edin → [@arel.yazilim](https://instagram.com/arel.yazilim)\n\nBirlikte büyük işler yapabiliriz! 💪`,
+    },
+    /* Üniversite / Kampüs */
+    {
+      keys: ['üniversite', 'kampüs', 'arel', 'istanbul', 'büyükçekmece', 'tepekent', 'yerleşke'],
+      answer: `🏫 **Kampüs Bilgisi**\n\nKulübümüz **İstanbul Arel Üniversitesi**'nde faaliyet göstermektedir.\n\n📍 **Adres:** Tepekent Kemal Gözükara Yerleşkesi\nBüyükçekmece / İstanbul\n\nKulüp toplantıları ve etkinlikler kampüs içinde düzenlenmektedir. Detaylar için [İletişim](iletisim.html) sayfamıza göz atın!`,
+    },
+    /* Staj / Kariyer */
+    {
+      keys: ['staj', 'kariyer', 'iş', 'joblar', 'mentör', 'mentor', 'network', 'bağlantı'],
+      answer: `🚀 **Kariyer & Staj**\n\nAYK'ya katılarak endüstri bağlantıları kurabilir, mentorship imkânlarından yararlanabilirsiniz!\n\n• 🎓 **Yazılım Kariyeri Yol Haritası** seminerleri düzenliyoruz\n• 🤝 Sektör profesyonelleriyle networking etkinlikleri\n• 💡 Gerçek projelerle pratik deneyim\n\nKulübe katılmak için [İletişim](iletisim.html) sayfasını kullanabilirsiniz!`,
+    },
+  ];
 
-## Kulüp Kimliği
-- **İsim:** Arel Yazılım Kulübü (AYK) 
-- **Üniversite:** İstanbul Arel Üniversitesi, Tepekent Kemal Gözükara Yerleşkesi, Büyükçekmece / İstanbul
-- **Kuruluş:** 2022
-- **Misyon:** Öğrencilerin teknik becerilerini geliştirmek, endüstri bağlantıları kurmak ve yazılım kültürü oluşturmak
-- **Vizyon:** İstanbul'un en aktif ve etkili öğrenci yazılım topluluğu olmak
+  /* ── RESPONSE ENGINE ─────────────────────────────────────── */
+  function getResponse(text) {
+    const lower = text.toLowerCase().trim();
 
-## Odak Alanları
-1. **Yapay Zeka & Makine Öğrenmesi** — Python, TensorFlow, PyTorch, Scikit-learn, NLP, derin öğrenme
-2. **Yazılım Geliştirme** — Frontend (React, Vue.js, Next.js), Backend (Node.js, Python, FastAPI), DevOps (Docker, Kubernetes, CI/CD), Veritabanı (PostgreSQL, MongoDB)
-3. **Veri Bilimi** — Pandas, SQL, Tableau, Apache Spark, veri analizi ve görselleştirme
+    // Selamlama
+    if (/^(merhaba|selam|hey|hi|hello|nasılsın|naber|iy+isin)/i.test(lower)) {
+      return '👋 **Merhaba!** Ben AYK\'nın akıllı asistanıyım.\n\nArel Yazılım Kulübü hakkında sormak istediğin her şeyi sorabilirsin — üyelik, etkinlikler, teknik alanlar ve daha fazlası! 😊';
+    }
 
-## Etkinlikler
-- Seminerler, workshoplar, hackathonlar, mentorship programları
-- Geçmiş etkinlikler: İşlemcilerin İsimlendirilmesi (60+ katılımcı), AI Trendleri Semineri (80+), Python ile Veri Analizi (25 kişilik workshop), İstanbul Üniversite Hackathonu (En İyi Sunum ödülü), Git & GitHub Workshop
-- Yaklaşan: React Modern Web Uygulamaları workshop (15 kişilik kontenjan), Yazılım Kariyeri Yol Haritası semineri
+    // Teşekkür
+    if (/(teşekkür|sağ ol|eyw|thanks|thank you)/i.test(lower)) {
+      return '😊 **Rica ederim!** Başka bir konuda yardımcı olabilir miyim?';
+    }
 
-## Yönetim Kadrosu
-- **Kerim Can Karadağ** — Yazılım Müh. 2. Sınıf (Başkan)
-- **Muhammed Sina Gün** — Bilgisayar Müh. 2. Sınıf (Genel Koordinatör)  
-- **Eren Bahadır** — Bilgisayar Müh. 3. Sınıf (CTO)
-- **Mahsun Ulusal** — Yazılım Müh. 2. Sınıf (Başkan Yardımcısı)
-- Ve 9 departman sorumlusu daha (Teknik, İçerik, Tasarım, Sponsorluk, Sosyal Medya, vb.)
+    // KB araması
+    let bestMatch = null;
+    let bestScore = 0;
 
-## İletişim & Sosyal Medya
-- **E-posta:** yazilimkulubu@istanbularel.edu.tr
-- **Instagram:** @arel.yazilim
-- **X (Twitter):** @ArelSoftware
-- **LinkedIn:** Arel Yazılım Kulübü
-- **GitHub:** github.com/ArelSoftwareClub
-- **Website:** arelsoftwareclub.github.io/website
-- **Üyelik başvurusu:** iletişim formu üzerinden
+    for (const entry of KB) {
+      let score = 0;
+      for (const key of entry.keys) {
+        if (lower.includes(key)) {
+          score += key.length; // daha uzun eşleşme = daha iyi
+        }
+      }
+      if (score > bestScore) {
+        bestScore = score;
+        bestMatch = entry;
+      }
+    }
 
-## İstatistikler
-- 197+ aktif üye
-- 20+ düzenlenen etkinlik
-- 3 temel odak alanı
-- 2022'den beri aktif
+    if (bestMatch && bestScore > 0) {
+      return bestMatch.answer;
+    }
 
-## Katılım
-Kulübe katılmak için: iletisim.html sayfasındaki formu doldurun veya Instagram'dan DM gönderin. Üyelik ücretsizdir. Tüm İstanbul Arel Üniversitesi öğrencileri başvurabilir.
+    // Varsayılan yanıt
+    return '🤔 Bu konuda yardımcı olamadım. Aşağıdaki konularda destek verebilirim:\n\n• 📝 Kulübe katılım\n• 📅 Etkinlikler\n• 💻 Öğretilen teknolojiler\n• 👥 Ekip bilgileri\n• 📬 İletişim\n\nBirini seçip sorabilirsin!';
+  }
 
-## Konuşma Kuralların
-- **Sadece Türkçe** konuş (kullanıcı başka dilde yazsa bile Türkçe yanıtla)
-- Samimi, yardımsever ve motive edici ol
-- Kulüp dışında kalan sorulara kibar şekilde "Üzgünüm, sadece Arel Yazılım Kulübü hakkında yardım edebiliyorum." de
-- Cevapları kısa ve net tut (6 cümleyi geçme)
-- Emoji kullanımı hoş ama aşırıya kaçma
-- Üyelik, etkinlik veya teknik sorularda spesifik öner
-`;
-
-    const SUGGESTIONS = [
-        'Kulübe nasıl katılabilirim?',
-        'Yaklaşan etkinlikler neler?',
-        'Hangi teknolojiler öğretiliyor?',
-        'Ekip kimlerden oluşuyor?',
-        'İletişim bilgileri nedir?',
-        'Hackathon\'a katılabilir miyim?',
-    ];
-
-    /* ── INJECT CSS ─────────────────────────────────────────── */
-    const css = `
+  /* ── INJECT CSS ─────────────────────────────────────────── */
+  const css = `
     #ayk-chat-widget * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
     
     #ayk-chat-toggle {
@@ -176,7 +205,9 @@ Kulübe katılmak için: iletisim.html sayfasındaki formu doldurun veya Instagr
       display: flex; align-items: center; justify-content: center;
       font-size: 14px; flex-shrink: 0; color: #fff;
     }
-    
+    .ayk-bubble a { color: #E8531D; text-decoration: underline; }
+    .ayk-msg.user .ayk-bubble a { color: #ffe0d0; }
+
     /* Typing indicator */
     .ayk-typing { display: flex; gap: 4px; padding: 12px 14px; align-items: center; }
     .ayk-typing span {
@@ -229,17 +260,16 @@ Kulübe katılmak için: iletisim.html sayfasındaki formu doldurun veya Instagr
       text-align: center; font-size: 10.5px; color: #ABABAB;
       padding: 6px 0 8px; flex-shrink: 0;
     }
-    .ayk-powered a { color: #E8531D; text-decoration: none; }
   `;
 
-    const style = document.createElement('style');
-    style.textContent = css;
-    document.head.appendChild(style);
+  const style = document.createElement('style');
+  style.textContent = css;
+  document.head.appendChild(style);
 
-    /* ── INJECT HTML ─────────────────────────────────────────── */
-    const wrapper = document.createElement('div');
-    wrapper.id = 'ayk-chat-widget';
-    wrapper.innerHTML = `
+  /* ── INJECT HTML ─────────────────────────────────────────── */
+  const wrapper = document.createElement('div');
+  wrapper.id = 'ayk-chat-widget';
+  wrapper.innerHTML = `
     <!-- Toggle Button -->
     <button id="ayk-chat-toggle" aria-label="AI Asistan">
       <svg class="chat-icon" viewBox="0 0 24 24" fill="currentColor">
@@ -258,10 +288,10 @@ Kulübe katılmak için: iletisim.html sayfasındaki formu doldurun veya Instagr
       <div class="ayk-header">
         <div class="ayk-avatar">🤖</div>
         <div class="ayk-header-info">
-          <div class="ayk-header-name">AYK — AI Asistan</div>
+          <div class="ayk-header-name">AYK — Asistan</div>
           <div class="ayk-header-status">
             <span class="ayk-status-dot"></span>
-            Çevrimiçi · Gemini ile güçlendirildi
+            Çevrimiçi · Her zaman hazır
           </div>
         </div>
         <button class="ayk-close-btn" aria-label="Kapat">✕</button>
@@ -279,194 +309,144 @@ Kulübe katılmak için: iletisim.html sayfasındaki formu doldurun veya Instagr
           </svg>
         </button>
       </div>
-      <div class="ayk-powered">Powered by <a href="https://deepmind.google/technologies/gemini/" target="_blank" rel="noopener">Google Gemini</a></div>
+      <div class="ayk-powered">Arel Yazılım Kulübü · AYK Asistan</div>
     </div>
   `;
-    document.body.appendChild(wrapper);
+  document.body.appendChild(wrapper);
 
-    /* ── STATE & REFS ────────────────────────────────────────── */
-    const toggleBtn = document.getElementById('ayk-chat-toggle');
-    const chatWindow = document.getElementById('ayk-chat-window');
-    const messagesEl = document.getElementById('ayk-messages');
-    const inputEl = document.getElementById('ayk-input');
-    const sendBtn = document.getElementById('ayk-send');
-    const suggestionsEl = document.getElementById('ayk-suggestions');
+  /* ── STATE & REFS ────────────────────────────────────────── */
+  const toggleBtn = document.getElementById('ayk-chat-toggle');
+  const chatWindow = document.getElementById('ayk-chat-window');
+  const messagesEl = document.getElementById('ayk-messages');
+  const inputEl = document.getElementById('ayk-input');
+  const sendBtn = document.getElementById('ayk-send');
+  const suggestionsEl = document.getElementById('ayk-suggestions');
 
-    let isOpen = false;
-    let isLoading = false;
-    let firstOpen = true;
-    const history = [];   // { role: 'user'|'model', parts: [{text}] }
+  let isOpen = false;
+  let isLoading = false;
+  let firstOpen = true;
 
-    /* ── HELPERS ─────────────────────────────────────────────── */
-    function createMsgEl(role, text) {
-        const isBot = role === 'bot';
-        const div = document.createElement('div');
-        div.className = `ayk-msg ${isBot ? 'bot' : 'user'}`;
-        if (isBot) { div.innerHTML = `<div class="ayk-msg-avatar">🤖</div>`; }
-        const bubble = document.createElement('div');
-        bubble.className = 'ayk-bubble';
-        // Simple markdown: bold, newlines
-        bubble.innerHTML = text
-            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\n/g, '<br>');
-        div.appendChild(bubble);
-        return div;
-    }
+  /* ── HELPERS ─────────────────────────────────────────────── */
+  function createMsgEl(role, text) {
+    const isBot = role === 'bot';
+    const div = document.createElement('div');
+    div.className = `ayk-msg ${isBot ? 'bot' : 'user'}`;
+    if (isBot) { div.innerHTML = `<div class="ayk-msg-avatar">🤖</div>`; }
+    const bubble = document.createElement('div');
+    bubble.className = 'ayk-bubble';
+    // Simple markdown: bold, lists, links, newlines
+    bubble.innerHTML = text
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+      .replace(/^• (.+)$/gm, '• $1')
+      .replace(/\n/g, '<br>');
+    div.appendChild(bubble);
+    return div;
+  }
 
-    function addMessage(role, text) {
-        const el = createMsgEl(role, text);
-        messagesEl.appendChild(el);
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-        return el;
-    }
+  function addMessage(role, text) {
+    const el = createMsgEl(role, text);
+    messagesEl.appendChild(el);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return el;
+  }
 
-    function showTyping() {
-        const div = document.createElement('div');
-        div.className = 'ayk-msg bot';
-        div.id = 'ayk-typing';
-        div.innerHTML = `
+  function showTyping() {
+    const div = document.createElement('div');
+    div.className = 'ayk-msg bot';
+    div.id = 'ayk-typing';
+    div.innerHTML = `
       <div class="ayk-msg-avatar">🤖</div>
       <div class="ayk-bubble ayk-typing">
         <span></span><span></span><span></span>
       </div>`;
-        messagesEl.appendChild(div);
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-    }
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
 
-    function hideTyping() {
-        const el = document.getElementById('ayk-typing');
-        if (el) el.remove();
-    }
+  function hideTyping() {
+    const el = document.getElementById('ayk-typing');
+    if (el) el.remove();
+  }
 
-    function showSuggestions() {
-        suggestionsEl.innerHTML = '';
-        SUGGESTIONS.forEach(s => {
-            const btn = document.createElement('button');
-            btn.className = 'ayk-suggestion-btn';
-            btn.textContent = s;
-            btn.onclick = () => sendMessage(s);
-            suggestionsEl.appendChild(btn);
-        });
-    }
-
-    function hideSuggestions() {
-        suggestionsEl.innerHTML = '';
-    }
-
-    /* ── GEMINI API CALL ─────────────────────────────────────── */
-    async function callGemini(userText) {
-        // Build conversation history for Gemini
-        history.push({ role: 'user', parts: [{ text: userText }] });
-
-        const body = {
-            system_instruction: { parts: [{ text: SYSTEM_CONTEXT }] },
-            contents: history,
-            generationConfig: {
-                temperature: 0.7,
-                maxOutputTokens: 512,
-                topP: 0.9,
-            },
-            safetySettings: [
-                { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_ONLY_HIGH' },
-                { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_ONLY_HIGH' },
-                { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
-                { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' },
-            ],
-        };
-
-        const res = await fetch(GEMINI_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body),
-        });
-
-        if (!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            if (res.status === 400 && GEMINI_API_KEY === 'BURAYA_API_KEYI_YAZ') {
-                throw new Error('API_KEY_MISSING');
-            }
-            throw new Error(err.error?.message || `HTTP ${res.status}`);
-        }
-
-        const data = await res.json();
-        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (!reply) throw new Error('Yanıt alınamadı');
-
-        history.push({ role: 'model', parts: [{ text: reply }] });
-        return reply;
-    }
-
-    /* ── SEND MESSAGE ────────────────────────────────────────── */
-    async function sendMessage(text) {
-        text = (text || inputEl.value).trim();
-        if (!text || isLoading) return;
-
-        inputEl.value = '';
-        inputEl.style.height = 'auto';
-        isLoading = true;
-        sendBtn.disabled = true;
-        hideSuggestions();
-
-        addMessage('user', text);
-        showTyping();
-
-        try {
-            const reply = await callGemini(text);
-            hideTyping();
-            addMessage('bot', reply);
-        } catch (err) {
-            hideTyping();
-            if (err.message === 'API_KEY_MISSING') {
-                addMessage('bot', '⚠️ Henüz API key tanımlanmamış. Lütfen `chatbot.js` dosyasındaki `GEMINI_API_KEY` alanını doldurun.');
-            } else {
-                addMessage('bot', '😕 Bir hata oluştu, lütfen tekrar dene. (' + err.message + ')');
-            }
-        } finally {
-            isLoading = false;
-            sendBtn.disabled = false;
-            inputEl.focus();
-        }
-    }
-
-    /* ── TOGGLE ──────────────────────────────────────────────── */
-    function toggleChat() {
-        isOpen = !isOpen;
-        toggleBtn.classList.toggle('open', isOpen);
-        chatWindow.classList.toggle('open', isOpen);
-
-        if (isOpen && firstOpen) {
-            firstOpen = false;
-            // Welcome message
-            setTimeout(() => {
-                addMessage('bot', '👋 **Merhaba! Ben AYK AI Asistanı.**\n\nArel Yazılım Kulübü hakkında her şeyi sorabilirsn — etkinlikler, üyelik, teknik alanlar ve daha fazlası. Sana nasıl yardımcı olabilirim?');
-                showSuggestions();
-            }, 300);
-        }
-        if (isOpen) inputEl.focus();
-    }
-
-    /* ── EVENT LISTENERS ─────────────────────────────────────── */
-    toggleBtn.addEventListener('click', toggleChat);
-    chatWindow.querySelector('.ayk-close-btn').addEventListener('click', toggleChat);
-
-    sendBtn.addEventListener('click', () => sendMessage());
-
-    inputEl.addEventListener('keydown', e => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-        }
+  function showSuggestions() {
+    suggestionsEl.innerHTML = '';
+    SUGGESTIONS.forEach(s => {
+      const btn = document.createElement('button');
+      btn.className = 'ayk-suggestion-btn';
+      btn.textContent = s;
+      btn.onclick = () => sendMessage(s);
+      suggestionsEl.appendChild(btn);
     });
+  }
 
-    // Auto-resize textarea
-    inputEl.addEventListener('input', () => {
-        inputEl.style.height = 'auto';
-        inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + 'px';
-    });
+  function hideSuggestions() {
+    suggestionsEl.innerHTML = '';
+  }
 
-    // Close on Escape
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape' && isOpen) toggleChat();
-    });
+  /* ── SEND MESSAGE ────────────────────────────────────────── */
+  function sendMessage(text) {
+    text = (text || inputEl.value).trim();
+    if (!text || isLoading) return;
+
+    inputEl.value = '';
+    inputEl.style.height = 'auto';
+    isLoading = true;
+    sendBtn.disabled = true;
+    hideSuggestions();
+
+    addMessage('user', text);
+    showTyping();
+
+    // Simulate slight delay for natural feel
+    setTimeout(() => {
+      hideTyping();
+      const reply = getResponse(text);
+      addMessage('bot', reply);
+      isLoading = false;
+      sendBtn.disabled = false;
+      inputEl.focus();
+    }, 600 + Math.random() * 400);
+  }
+
+  /* ── TOGGLE ──────────────────────────────────────────────── */
+  function toggleChat() {
+    isOpen = !isOpen;
+    toggleBtn.classList.toggle('open', isOpen);
+    chatWindow.classList.toggle('open', isOpen);
+
+    if (isOpen && firstOpen) {
+      firstOpen = false;
+      setTimeout(() => {
+        addMessage('bot', '👋 **Merhaba! Ben AYK Asistanı.**\n\nArel Yazılım Kulübü hakkında her şeyi sorabilirsin — etkinlikler, üyelik, teknik alanlar ve daha fazlası. Sana nasıl yardımcı olabilirim?');
+        showSuggestions();
+      }, 300);
+    }
+    if (isOpen) inputEl.focus();
+  }
+
+  /* ── EVENT LISTENERS ─────────────────────────────────────── */
+  toggleBtn.addEventListener('click', toggleChat);
+  chatWindow.querySelector('.ayk-close-btn').addEventListener('click', toggleChat);
+
+  sendBtn.addEventListener('click', () => sendMessage());
+
+  inputEl.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  // Auto-resize textarea
+  inputEl.addEventListener('input', () => {
+    inputEl.style.height = 'auto';
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + 'px';
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && isOpen) toggleChat();
+  });
 
 })();
