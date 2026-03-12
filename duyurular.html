@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Duyurular | Arel Yazılım Kulübü</title>
+  <meta name="description" content="Arel Yazılım Kulübü resmî duyuruları — üyelik başvuruları, etkinlik kayıtları, yarışma çağrıları ve proje alımları." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="arel_logo_colored.png" />
+  <meta name="theme-color" content="#E8531D" />
+</head>
+<body>
+  <a href="#main-content" class="skip-to-content">Ana içeriğe geç</a>
+  <div id="progress-bar"></div>
+
+  <div class="university-bar">
+    <div class="container">
+      <div class="university-bar-inner">
+        <div class="university-bar-left">
+          <span class="university-bar-badge">🎓 Resmî Kulüp</span>
+          <span class="university-bar-sep">|</span>
+          <span>İstanbul Arel Üniversitesi · Girişimcilik ve Liderlik Ofisi Ekosistemi</span>
+        </div>
+        <div class="university-bar-right">
+          <a href="https://www.istanbularel.edu.tr" target="_blank" rel="noopener" class="university-bar-link">↗ Üniversite Ana Sayfa</a>
+          <a href="mailto:yazilimkulubu@istanbularel.edu.tr" class="university-bar-link">✉ yazilimkulubu@istanbularel.edu.tr</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-brand">
+          <img src="arel_logo_colored.png" alt="Logo" class="nav-logo" />
+          <span class="nav-brand-name">Arel <span>Yazılım</span></span>
+        </a>
+        <div class="nav-links">
+          <a href="index.html" class="nav-link">Ana Sayfa</a>
+          <a href="hakkimizda.html" class="nav-link">Hakkımızda</a>
+          <a href="etkinlikler.html" class="nav-link">Etkinlikler</a>
+          <a href="duyurular.html" class="nav-link active">Duyurular</a>
+          <a href="projeler.html" class="nav-link">Projeler</a>
+          <a href="ekip.html" class="nav-link">Ekip</a>
+          <a href="iletisim.html" class="nav-link">İletişim</a>
+        </div>
+        <div class="nav-actions">
+          <a href="uyelik.html" class="btn btn-primary btn-sm">Üye Ol</a>
+          <button class="hamburger" id="hamburger" aria-label="Menü"><span></span><span></span><span></span></button>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="nav-mobile" id="mobileMenu">
+    <a href="index.html" class="nav-link">Ana Sayfa</a>
+    <a href="hakkimizda.html" class="nav-link">Hakkımızda</a>
+    <a href="etkinlikler.html" class="nav-link">Etkinlikler</a>
+    <a href="duyurular.html" class="nav-link active">Duyurular</a>
+    <a href="projeler.html" class="nav-link">Projeler</a>
+    <a href="ekip.html" class="nav-link">Ekip</a>
+    <a href="belgeler.html" class="nav-link">Belgeler / SSS</a>
+    <a href="iletisim.html" class="nav-link">İletişim</a>
+    <div style="padding:12px 16px;"><a href="uyelik.html" class="btn btn-primary" style="width:100%;justify-content:center;">Üye Ol →</a></div>
+  </div>
+
+  <main id="main-content">
+    <section class="page-hero-light" style="padding-top:calc(var(--nav-h) + 40px);">
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <div class="page-breadcrumb-light">
+            <a href="index.html">Ana Sayfa</a><span>›</span><span>Duyurular</span>
+          </div>
+        </nav>
+        <h1 class="page-title-light">Resmî <span>Duyurular</span></h1>
+        <p class="page-desc-light">Üyelik başvuruları, etkinlik kayıtları, yarışma çağrıları ve proje alımları. Güncel kalın.</p>
+        <div style="margin-top:16px;">
+          <span class="last-updated-note"><span class="last-updated-dot"></span> Son güncelleme: 12 Mart 2026</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- GÜNCEL DUYURULAR -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
+          <h2 class="section-title" style="margin-bottom:0;">Güncel <span>Duyurular</span></h2>
+          <div class="filter-tabs" style="margin-bottom:0;">
+            <button class="filter-tab active" data-filter="all">Tümü</button>
+            <button class="filter-tab" data-filter="uyelik">Üyelik</button>
+            <button class="filter-tab" data-filter="etkinlik">Etkinlik</button>
+            <button class="filter-tab" data-filter="proje">Proje</button>
+            <button class="filter-tab" data-filter="yarisma">Yarışma</button>
+          </div>
+        </div>
+
+        <div class="announcements-list" id="announcementsList">
+
+          <div class="announcement-card featured" data-cat="uyelik">
+            <div class="announcement-card-icon">👤</div>
+            <div class="announcement-card-body">
+              <div class="announcement-card-meta">
+                <span class="announcement-cat-badge">Üyelik</span>
+                <span class="announcement-date">12 Mart 2026</span>
+                <span class="announcement-deadline">⏰ Son Başvuru: 31 Mart 2026</span>
+              </div>
+              <div class="announcement-title">2025–2026 Bahar Dönemi Üye Alımı Açıldı</div>
+              <div class="announcement-summary">Kulübümüzün yönetim ekibine, teknik ekibine ve proje gruplarına yeni üyeler alıyoruz. Başvuru koşulları, formu ve değerlendirme süreci hakkında bilgi almak için üyelik sayfesını ziyaret edin.</div>
+              <div style="margin-top:12px;"><a href="uyelik.html" class="btn btn-primary btn-sm">Başvuru Yap →</a></div>
+            </div>
+          </div>
+
+          <div class="announcement-card" data-cat="yarisma">
+            <div class="announcement-card-icon">🏆</div>
+            <div class="announcement-card-body">
+              <div class="announcement-card-meta">
+                <span class="announcement-cat-badge">Yarışma</span>
+                <span class="announcement-date">8 Mart 2026</span>
+                <span class="announcement-deadline">⏰ Son Başvuru: 20 Mart 2026</span>
+              </div>
+              <div class="announcement-title">TEKNOFEST 2026 Kulüp Takımları Oluşturuluyor</div>
+              <div class="announcement-summary">TEKNOFEST 2026 için Yapay Zekâ, Yazılım ve Veri Bilimi kategorilerinde takımlar oluşturuluyor. İlgilenen üyeler koordinatör ile iletişime geçsin.</div>
+              <div style="margin-top:12px;"><a href="iletisim.html" class="btn btn-ghost btn-sm">İletişime Geç</a></div>
+            </div>
+          </div>
+
+          <div class="announcement-card" data-cat="etkinlik">
+            <div class="announcement-card-icon">💻</div>
+            <div class="announcement-card-body">
+              <div class="announcement-card-meta">
+                <span class="announcement-cat-badge">Workshop</span>
+                <span class="announcement-date">5 Mart 2026</span>
+                <span class="announcement-deadline">⏰ Son Kayıt: 25 Mart 2026</span>
+              </div>
+              <div class="announcement-title">Full Stack Web Geliştirme Workshop Serisi</div>
+              <div class="announcement-summary">React + Node.js + PostgreSQL odaklı 6 haftalık workshop serisi Nisan başında başlıyor. 20 kişilik kontenjan, kayıt zorunlu.</div>
+              <div style="margin-top:12px;"><a href="etkinlikler.html" class="btn btn-ghost btn-sm">Etkinlik Detayı</a></div>
+            </div>
+          </div>
+
+          <div class="announcement-card" data-cat="proje">
+            <div class="announcement-card-icon">🔬</div>
+            <div class="announcement-card-body">
+              <div class="announcement-card-meta">
+                <span class="announcement-cat-badge">Proje</span>
+                <span class="announcement-date">1 Mart 2026</span>
+              </div>
+              <div class="announcement-title">VARIANT-GNN Projesine Katkıcı Aranıyor</div>
+              <div class="announcement-summary">Python ve PyTorch bilen, GNN veya biyoinformatik konusunda deneyim kazanmak isteyen üyeler VARIANT-GNN projesine katkı verebilir. GitHub üzerinden PR açılabilir.</div>
+              <div style="margin-top:12px;"><a href="https://github.com/ArelSoftwareClub" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">GitHub'da İncele</a></div>
+            </div>
+          </div>
+
+          <div class="announcement-card" data-cat="etkinlik">
+            <div class="announcement-card-icon">🌐</div>
+            <div class="announcement-card-body">
+              <div class="announcement-card-meta">
+                <span class="announcement-cat-badge">Seminer</span>
+                <span class="announcement-date">20 Şubat 2026</span>
+              </div>
+              <div class="announcement-title">Yapay Zekâ ve Kariyer Yolları Paneli — Mayıs 2026</div>
+              <div class="announcement-summary">Sektörden konuşmacılarla yapay zekâ kariyeri, staj fırsatları ve iş başvuru stratejileri üzerine açık panel etkinliği. Tüm fakülte öğrencilerine açıktır.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ARŞİV -->
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Arşiv</span>
+          <h2 class="section-title">Geçmiş <span>Duyurular</span></h2>
+          <p class="section-desc">2024–2025 dönemine ait duyuru arşivi.</p>
+        </div>
+        <div class="announcements-list">
+          <div class="announcement-card" style="opacity:0.75;">
+            <div class="announcement-card-icon">✅</div>
+            <div class="announcement-card-body">
+              <div class="announcement-card-meta">
+                <span class="event-badge badge-archive">Tamamlandı</span>
+                <span class="announcement-date">Eylül 2024</span>
+              </div>
+              <div class="announcement-title">2024–2025 Güz Dönemi Üye Alımı</div>
+              <div class="announcement-summary">Güz dönemi üye alımı tamamlandı. 197+ öğrenci kulübe kaydedildi.</div>
+            </div>
+          </div>
+          <div class="announcement-card" style="opacity:0.75;">
+            <div class="announcement-card-icon">✅</div>
+            <div class="announcement-card-body">
+              <div class="announcement-card-meta">
+                <span class="event-badge badge-archive">Tamamlandı</span>
+                <span class="announcement-date">Ekim 2024</span>
+              </div>
+              <div class="announcement-title">İstanbul Üniversite Hackathonu Katılım</div>
+              <div class="announcement-summary">5 üniversitenin katıldığı hackathonda kulübümüz 2 takımla temsil edildi. En İyi Sunum ödülü kazanıldı.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="container">
+        <h2>Duyurulardan Haberdar Ol</h2>
+        <p>Üye olarak tüm duyuru ve etkinliklerden anında haberdar olun.</p>
+        <div class="cta-actions">
+          <a href="uyelik.html" class="btn btn-white btn-lg">Üyelik Başvurusu →</a>
+          <a href="iletisim.html" class="btn btn-lg" style="background:rgba(255,255,255,0.15);color:#fff;border:2px solid rgba(255,255,255,0.3);">İletişime Geç</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid-5">
+        <div>
+          <div class="footer-brand-inline">
+            <img src="arel_logo_colored.png" alt="Logo" class="footer-logo" />
+            <span class="footer-brand-name">Arel <span>Yazılım</span></span>
+          </div>
+          <div class="footer-affiliation" style="margin-top:12px;">
+            <strong>Resmî Kulüp</strong> · İstanbul Arel Üniversitesi<br />yazilimkulubu@istanbularel.edu.tr
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">Hızlı Bağlantılar</div>
+          <div class="footer-links">
+            <a href="index.html">Ana Sayfa</a>
+            <a href="hakkimizda.html">Hakkımızda</a>
+            <a href="etkinlikler.html">Etkinlikler</a>
+            <a href="projeler.html">Projeler</a>
+            <a href="ekip.html">Ekip</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">Katılım</div>
+          <div class="footer-links">
+            <a href="uyelik.html">Üyelik Başvurusu</a>
+            <a href="belgeler.html">SSS</a>
+            <a href="iletisim.html">İletişim</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">Sosyal Medya</div>
+          <div class="footer-links">
+            <a href="https://instagram.com/arel.yazilim" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://linkedin.com/company/arel-yazilim" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="https://github.com/ArelSoftwareClub" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">Politika</div>
+          <div class="footer-links">
+            <a href="gizlilik.html">Gizlilik Politikası</a>
+            <a href="gizlilik.html#kvkk">KVKK</a>
+            <a href="gizlilik.html#kullanim">Kullanım Koşulları</a>
+            <a href="https://www.istanbularel.edu.tr" target="_blank" rel="noopener">Arel Üniversitesi</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span class="copyright-year">2026</span> Arel Yazılım Kulübü · İstanbul Arel Üniversitesi</span>
+        <div style="display:flex;gap:16px;">
+          <a href="gizlilik.html" style="color:rgba(255,255,255,0.35);font-size:11px;">Gizlilik</a>
+          <a href="gizlilik.html#kvkk" style="color:rgba(255,255,255,0.35);font-size:11px;">KVKK</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <button id="back-to-top" aria-label="Sayfanın başına git"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg></button>
+  <div id="toast-container"></div>
+  <script src="script.js"></script>
+  <script src="chatbot.js"></script>
+  <script>
+    // Filtre mantığı
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const filter = tab.dataset.filter;
+        document.querySelectorAll('#announcementsList .announcement-card').forEach(card => {
+          if (filter === 'all' || card.dataset.cat === filter) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

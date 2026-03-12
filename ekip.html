@@ -14,9 +14,24 @@
 </head>
 
 <body>
-    <div id="progress-bar"></div>
+  <a href="#main-content" class="skip-to-content">Ana içeriğe geç</a>
+  <div id="progress-bar"></div>
 
-    <nav id="navbar">
+  <div class="university-bar">
+    <div class="container">
+      <div class="university-bar-inner">
+        <div class="university-bar-left">
+          <span class="university-bar-badge">🎓 Resmî Kulübü</span>
+          <span class="university-bar-sep">|</span>
+          <span>İstanbul Arel Üniversitesi · Girişimcilik ve Liderlik Ofisi Ekosistemi</span>
+        </div>
+        <div class="university-bar-right">
+          <a href="https://www.istanbularel.edu.tr" target="_blank" rel="noopener" class="university-bar-link">↗ Üniversite Ana Sayfa</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
         <div class="container">
             <div class="nav-inner">
                 <a href="index.html" class="nav-brand">
@@ -48,22 +63,23 @@
         <a href="iletisim.html" class="nav-link">İletişim</a>
     </div>
 
-    <section class="page-hero">
-        <div class="container">
-            <div class="page-hero-content">
-                <div class="page-breadcrumb">
-                    <a href="index.html">Ana Sayfa</a><span>›</span><span>Ekip</span>
-                </div>
-                <h1 class="page-title">Yönetim <span>Ekibimiz</span></h1>
-                <p class="page-desc">Arel Yazılım Kulübü'nü bir araya getiren ve yöneten öğrenci liderlerimizle tanış.
-                </p>
-            </div>
+  <main id="main-content">
+    <section class="page-hero-light" style="padding-top:calc(var(--nav-h) + 40px);">
+      <div class="container">
+        <div class="page-breadcrumb-light">
+          <a href="index.html">Ana Sayfa</a><span>›</span><span>Ekip</span>
         </div>
+        <h1 class="page-title-light">Yönetim <span>Ekibimiz</span></h1>
+        <p class="page-desc-light">Arel Yazılım Kulübü'nü bir araya getiren 2024–2025 dönemi öğrenci liderlerimizle tanış.</p>
+        <div style="margin-top:12px;">
+          <span class="last-updated-note"><span class="last-updated-dot"></span> 2025–2026 Dönemi Kadırosu</span>
+        </div>
+      </div>
     </section>
 
-    <section class="section">
-        <div class="container">
-            <div class="team-grid-ms" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr));">
+  <section class="section">
+      <div class="container">
+        <div class="team-grid-ms" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr));">
 
                 <!-- 1 -->
                 <div class="team-card-ms fade-up">
@@ -257,39 +273,76 @@
         </div>
     </section>
 
-    <section class="cta-section">
-        <div class="container">
-            <h2>Sen de Aramıza Katıl</h2>
-            <p>Yönetim ekibimiz gibi topluluğumuza katkıda bulunmak ister misin?</p>
-            <div class="cta-actions">
-                <a href="iletisim.html" class="btn btn-white btn-lg">Başvur →</a>
-            </div>
-        </div>
-    </section>
+  <section class="cta-section">
+    <div class="container">
+      <h2>Sen de Aramıza Katıl</h2>
+      <p>Yönetim ekibimiz gibi topluluğumuza katkıda bulunmak ister misin?</p>
+      <div class="cta-actions">
+        <a href="uyelik.html" class="btn btn-white btn-lg">Başvur →</a>
+        <a href="belgeler.html" class="btn btn-lg" style="background:rgba(255,255,255,0.15);color:#fff;border:2px solid rgba(255,255,255,0.3);">SSS</a>
+      </div>
+    </div>
+  </section>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-bottom" style="border-top:none;padding-top:0;">
-                <div class="footer-brand-inline">
-                    <img src="arel_logo_colored.png" alt="Logo" class="footer-logo" />
-                    <span class="footer-brand-name">Arel <span>Yazılım</span></span>
-                </div>
-                <div style="display:flex;gap:24px;flex-wrap:wrap;">
-                    <a href="index.html" style="color:rgba(255,255,255,0.5);font-size:13px;">Ana Sayfa</a>
-                    <a href="hakkimizda.html" style="color:rgba(255,255,255,0.5);font-size:13px;">Hakkımızda</a>
-                    <a href="etkinlikler.html" style="color:rgba(255,255,255,0.5);font-size:13px;">Etkinlikler</a>
-                    <a href="iletisim.html" style="color:rgba(255,255,255,0.5);font-size:13px;">İletişim</a>
-                </div>
-                <span style="font-size:12px;color:rgba(255,255,255,0.3);">© 2025 Arel Yazılım Kulübü</span>
-            </div>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid-5">
+        <div>
+          <div class="footer-brand-inline">
+            <img src="arel_logo_colored.png" alt="Logo" class="footer-logo" />
+            <span class="footer-brand-name">Arel <span>Yazılım</span></span>
+          </div>
+          <div class="footer-affiliation" style="margin-top:12px;">
+            <strong>Resmî Kulüb</strong> · İstanbul Arel Üniversitesi<br />yazilimkulubu@istanbularel.edu.tr
+          </div>
         </div>
-    </footer>
-    <button id="back-to-top" aria-label="Yukarı git"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2.5">
-            <path d="M18 15l-6-6-6 6" />
-        </svg></button>
-    <script src="script.js"></script>
-    <script src="chatbot.js"></script>
+        <div>
+          <div class="footer-col-title">Hızlı Bağlantılar</div>
+          <div class="footer-links">
+            <a href="index.html">Ana Sayfa</a>
+            <a href="hakkimizda.html">Hakkımızda</a>
+            <a href="etkinlikler.html">Etkinlikler</a>
+            <a href="duyurular.html">Duyurular</a>
+            <a href="projeler.html">Projeler</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">Katılım</div>
+          <div class="footer-links">
+            <a href="uyelik.html">Üyelik Başvurusu</a>
+            <a href="belgeler.html">SSS &amp; Belgeler</a>
+            <a href="iletisim.html">İletişim</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">Sosyal</div>
+          <div class="footer-links">
+            <a href="https://instagram.com/arel.yazilim" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://linkedin.com/company/arel-yazilim" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="https://github.com/ArelSoftwareClub" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">Politika</div>
+          <div class="footer-links">
+            <a href="gizlilik.html">Gizlilik</a>
+            <a href="gizlilik.html#kvkk">KVKK</a>
+            <a href="gizlilik.html#kullanim">Kullanım Koşulları</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span class="copyright-year">2026</span> Arel Yazılım Kulübü · İstanbul Arel Üniversitesi</span>
+        <div style="display:flex;gap:16px;">
+          <a href="gizlilik.html" style="color:rgba(255,255,255,0.35);font-size:11px;">Gizlilik</a>
+          <a href="gizlilik.html#kvkk" style="color:rgba(255,255,255,0.35);font-size:11px;">KVKK</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <button id="back-to-top" aria-label="Sayfanın başına git"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg></button>
+  <div id="toast-container"></div>
+  <script src="script.js"></script>
+  <script src="chatbot.js"></script>
 </body>
-
 </html>
