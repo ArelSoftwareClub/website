@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import Section, { SectionHeader } from '@/components/ui/Section';
-import Badge, { AnnouncementBadge } from '@/components/ui/Badge';
+import { AnnouncementBadge } from '@/components/ui/Badge';
 import { siteConfig } from '@/content/site';
 import { announcements } from '@/content/announcements';
 import { events } from '@/content/events';
@@ -438,27 +437,8 @@ export default function HomePage() {
   );
 }
 
-// ── Social button style ──────────────────────────────────────
-const socialBtnStyle: React.CSSProperties = {
-  width: '34px', height: '34px', borderRadius: '50%',
-  border: '1.5px solid var(--border)',
-  display: 'flex', alignItems: 'center', justifyContent: 'center',
-  fontSize: '11px', fontWeight: 700, color: 'var(--text-2)',
-  transition: 'all 0.2s ease',
-  textDecoration: 'none',
-};
-
 // ── Icon components ──────────────────────────────────────────
 type IconProps = { size?: number };
-function Ico({ d, size = 20 }: { d: string; size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-      stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"
-      aria-hidden="true">
-      <path d={d} />
-    </svg>
-  );
-}
 function UserPlusIcon({ size }: IconProps) {
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>;
 }

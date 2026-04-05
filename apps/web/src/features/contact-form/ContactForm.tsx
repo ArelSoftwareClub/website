@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef, type FormEvent } from 'react';
-import { siteConfig } from '@/content/site';
 
 interface FormState {
   status: 'idle' | 'loading' | 'success' | 'error';

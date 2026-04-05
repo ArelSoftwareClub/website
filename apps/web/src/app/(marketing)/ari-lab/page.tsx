@@ -44,7 +44,7 @@ export default function AriLabPage() {
       {/* CTA Join */}
       <section className="relative overflow-hidden bg-brand-dark py-20 text-white" aria-labelledby="ari-cta">
         <div className="container-site text-center">
-          <h2 id="ari-cta" className="mb-4 text-4xl font-black">ARI Lab'e Katıl</h2>
+          <h2 id="ari-cta" className="mb-4 text-4xl font-black">ARI Lab&apos;e Katıl</h2>
           <p className="mx-auto mb-8 max-w-[480px] text-white/70">
             2. ve 3. sınıf öğrencilerine açık araştırmacı pozisyonları için başvur.
             Mentor eşliğinde gerçek akademik projelerde yer al.
@@ -62,7 +62,7 @@ export default function AriLabPage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2.5 rounded-md border border-white/20 px-9 py-[18px] text-base font-bold text-white transition-all hover:border-white/40 hover:bg-white/12"
             >
-              GitHub'da İncele
+              GitHub&apos;da İncele
             </Link>
           </div>
         </div>
