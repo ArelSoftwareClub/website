@@ -7,9 +7,10 @@ const nextConfig: NextConfig = {
   // Strict React mode
   reactStrictMode: true,
 
-  // GitHub Pages hosting paths
-  basePath: isProd ? '/website' : '',
-  assetPrefix: isProd ? '/website/' : '',
+  // GitHub Pages hosting paths (always /website for this repo)
+  basePath: '/website',
+  assetPrefix: '/website/',
+  trailingSlash: true,
 
   // Static export for GitHub Pages
   output: 'export',

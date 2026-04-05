@@ -63,8 +63,8 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     borderRadius: '12px',
                     fontSize: '18px',
                     fontWeight: 700,
-                    color: active ? 'var(--orange)' : 'var(--text)',
-                    background: active ? 'var(--orange-soft)' : 'transparent',
+                    color: active ? 'var(--brand)' : 'var(--text)',
+                    background: active ? 'var(--brand-soft)' : 'transparent',
                     textDecoration: 'none',
                   }}
                 >

@@ -31,23 +31,28 @@ export default function Navbar() {
       >
         <div className="container-site" style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
           {/* Logo */}
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0 }}>
             <Image
-              src="/images/arel-logo.png"
+              src="/images/arel-logo-main.jpg"
               alt="Arel Yazılım Kulübü"
-              width={40}
-              height={40}
-              style={{ objectFit: 'contain' }}
+              width={42}
+              height={42}
+              style={{ objectFit: 'contain', borderRadius: '8px' }}
               priority
             />
-            <span style={{
-              fontWeight: 800,
-              fontSize: '15px',
-              letterSpacing: '-0.01em',
-              color: 'var(--text)',
-            }}>
-              Arel Yazılım
-            </span>
+            <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.1 }}>
+              <span style={{
+                fontWeight: 900,
+                fontSize: '16px',
+                letterSpacing: '-0.02em',
+                color: 'var(--text)',
+              }}>
+                AREL YAZILIM
+              </span>
+              <span style={{ fontSize: '10px', fontWeight: 600, color: 'var(--text-muted)', letterSpacing: '0.05em' }}>
+                SOFTWARE CLUB
+              </span>
+            </div>
           </Link>
 
           {/* Desktop nav */}
@@ -64,8 +69,8 @@ export default function Navbar() {
                   href={link.href}
                   className="nav-link"
                   style={active ? {
-                    background: 'var(--orange-soft)',
-                    color: 'var(--orange)',
+                    background: 'var(--brand-soft)',
+                    color: 'var(--brand)',
                   } : {}}
                   aria-current={active ? 'page' : undefined}
                 >

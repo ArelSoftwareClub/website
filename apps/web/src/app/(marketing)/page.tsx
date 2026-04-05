@@ -59,19 +59,19 @@ export default function HomePage() {
                 gap: '10px',
                 padding: '8px 18px',
                 borderRadius: '999px',
-                border: '1px solid rgba(232,83,29,0.3)',
-                background: 'rgba(232,83,29,0.10)',
+                border: '1px solid rgba(37,99,235,0.3)',
+                background: 'rgba(37,99,235,0.10)',
                 marginBottom: '24px',
                 fontSize: '12px',
                 fontWeight: 800,
                 letterSpacing: '1.2px',
                 textTransform: 'uppercase' as const,
-                color: '#FF7755',
+                color: 'var(--brand)',
                 backdropFilter: 'blur(8px)',
               }}>
                 <span className="blink-dot" style={{
                   width: '7px', height: '7px', borderRadius: '50%',
-                  background: 'var(--orange)', display: 'block', flexShrink: 0,
+                  background: 'var(--brand)', display: 'block', flexShrink: 0,
                 }} aria-hidden="true" />
                 {siteConfig.academicYear} Akademik Yılı Aktif
               </div>
@@ -138,17 +138,16 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Logo visual */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <div className="logo-ring">
                 <Image
-                  src="/images/arel-logo.png"
+                  src="/images/arel-logo-main.jpg"
                   alt="Arel Yazılım Kulübü logosu"
-                  width={200}
-                  height={200}
+                  width={240}
+                  height={240}
                   priority
                   className="float-anim"
-                  style={{ objectFit: 'contain', filter: 'brightness(0) invert(1) drop-shadow(0 0 30px rgba(232,83,29,0.4))' }}
+                  style={{ objectFit: 'contain', borderRadius: '24px', boxShadow: '0 0 60px rgba(37,99,235,0.2)' }}
                 />
               </div>
             </div>
@@ -367,7 +366,7 @@ export default function HomePage() {
               <div key={member.id} className="team-card">
                 <div className="avatar">{member.initials}</div>
                 <div style={{ fontWeight: 800, color: 'var(--text)', fontSize: '15px' }}>{member.name}</div>
-                <div style={{ fontWeight: 600, color: 'var(--orange)', fontSize: '13px', margin: '4px 0 2px' }}>{member.role}</div>
+                <div style={{ fontWeight: 600, color: 'var(--brand)', fontSize: '13px', margin: '4px 0 2px' }}>{member.role}</div>
                 <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '16px' }}>
                   {member.faculty} · {member.year}
                 </div>
@@ -412,7 +411,7 @@ export default function HomePage() {
             <Link href="/uyelik" style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px',
               padding: '18px 40px', borderRadius: '16px',
-              background: '#fff', color: 'var(--orange)',
+              background: '#fff', color: 'var(--brand)',
               fontWeight: 800, fontSize: '16px',
               boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
               transition: 'all 0.25s ease',

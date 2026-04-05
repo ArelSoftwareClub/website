@@ -5,29 +5,29 @@
 
 /* ── CSS Custom Properties (Design Tokens) ─────────────────── */
 :root {
-  --orange: #E8531D;
-  --orange-v: #FF5722;
-  --orange-dark: #BF360C;
-  --orange-glow: rgba(232, 83, 29, 0.45);
-  --orange-soft: rgba(232, 83, 29, 0.09);
-  --bg-premium: #F7F8FA;
-  --bg-pure: #FFFFFF;
-  --bg-alt: #EEF0F4;
-  --bg-dark: #0D0F12;
-  --bg-darker: #070809;
-  --glass-bg: rgba(255,255,255,0.80);
-  --glass-border: rgba(255,255,255,0.45);
-  --glass-shadow: 0 8px 32px rgba(0,0,0,0.08);
-  --text: #111827;
-  --text-2: #4B5563;
-  --text-muted: #9CA3AF;
-  --border: #E5E7EB;
+  --brand: #2563eb;
+  --brand-v: #3b82f6;
+  --brand-dark: #1d4ed8;
+  --brand-glow: rgba(37, 99, 235, 0.45);
+  --brand-soft: rgba(37, 99, 235, 0.08);
+  --bg-premium: #fcfcfd;
+  --bg-pure: #ffffff;
+  --bg-alt: #f1f5f9;
+  --bg-dark: #0f172a;
+  --bg-darker: #020617;
+  --glass-bg: rgba(255,255,255,0.85);
+  --glass-border: rgba(255,255,255,0.6);
+  --glass-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+  --text: #0f172a;
+  --text-2: #334155;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
   --nav-h: 72px;
   --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-xl: 32px;
-  --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
 }
 
 /* ── Tailwind Base ──────────────────────────────────────────── */
@@ -47,7 +47,7 @@
   ul, ol { list-style: none; }
   button { cursor: pointer; border: none; background: none; font-family: inherit; }
   input, textarea, select { font-family: inherit; }
-  :focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; border-radius: var(--radius-sm); }
+  :focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: var(--radius-sm); }
 }
 
 /* ── Layout Helpers ─────────────────────────────────────────── */
@@ -71,25 +71,25 @@
 
   /* Gradient text */
   .gradient-text {
-    background: linear-gradient(135deg, var(--orange) 0%, #FF7043 100%);
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-v) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
   }
 
-  /* Orange background utilities */
-  .bg-orange    { background-color: var(--orange) !important; }
-  .bg-orange-v  { background-color: var(--orange-v) !important; }
-  .bg-orange-soft { background: var(--orange-soft) !important; }
-  .text-orange  { color: var(--orange) !important; }
-  .border-orange { border-color: var(--orange) !important; }
+  /* Brand background utilities */
+  .bg-brand    { background-color: var(--brand) !important; }
+  .bg-brand-v  { background-color: var(--brand-v) !important; }
+  .bg-brand-soft { background: var(--brand-soft) !important; }
+  .text-brand  { color: var(--brand) !important; }
+  .border-brand { border-color: var(--brand) !important; }
   .bg-dark      { background: var(--bg-dark) !important; }
   .bg-darker    { background: var(--bg-darker) !important; }
   .bg-premium   { background: var(--bg-premium) !important; }
   .bg-alt       { background: var(--bg-alt) !important; }
-  .shadow-orange { box-shadow: 0 12px 28px -4px var(--orange-glow); }
-  .shadow-orange-sm { box-shadow: 0 4px 14px var(--orange-glow); }
+  .shadow-brand { box-shadow: 0 12px 28px -4px var(--brand-glow); }
+  .shadow-brand-sm { box-shadow: 0 4px 14px var(--brand-glow); }
 
   /* Card */
   .card {
@@ -140,16 +140,16 @@
     white-space: nowrap;
   }
   .btn-primary {
-    background: var(--orange);
+    background: var(--brand);
     color: #fff;
-    border-color: var(--orange);
-    box-shadow: 0 4px 14px var(--orange-glow);
+    border-color: var(--brand);
+    box-shadow: 0 4px 14px var(--brand-glow);
   }
   .btn-primary:hover {
-    background: var(--orange-v);
-    border-color: var(--orange-v);
+    background: var(--brand-v);
+    border-color: var(--brand-v);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px var(--orange-glow);
+    box-shadow: 0 8px 24px var(--brand-glow);
   }
   .btn-outline-white {
     background: rgba(255,255,255,0.08);
@@ -504,14 +504,14 @@
   font-weight: 900;
   color: #fff;
   margin-bottom: 16px;
-  box-shadow: 0 8px 24px var(--orange-glow);
+  box-shadow: 0 8px 24px var(--brand-glow);
 }
 
 /* ── CTA Section ────────────────────────────────────────────── */
 .cta-section {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--orange) 0%, var(--orange-v) 100%);
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-v) 100%);
   padding: 80px 0;
 }
 .cta-section::before {
@@ -534,7 +534,7 @@
   position: fixed;
   top: 0; left: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--orange) 0%, var(--orange-v) 100%);
+  background: linear-gradient(90deg, var(--brand) 0%, var(--brand-v) 100%);
   z-index: 9999;
   transition: width 0.05s linear;
 }
@@ -546,7 +546,7 @@
   left: 16px;
   z-index: 10000;
   padding: 12px 24px;
-  background: var(--orange);
+  background: var(--brand);
   color: #fff;
   font-weight: 700;
   font-size: 14px;
@@ -561,19 +561,19 @@
   z-index: 999;
   width: 44px; height: 44px;
   border-radius: 50%;
-  background: var(--orange);
+  background: var(--brand);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px var(--orange-glow);
+  box-shadow: 0 4px 16px var(--brand-glow);
   transition: opacity 0.3s, transform 0.3s, background 0.2s;
   opacity: 0;
   transform: translateY(10px);
   pointer-events: none;
 }
 #back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
-#back-to-top:hover { background: var(--orange-v); transform: translateY(-2px); }
+#back-to-top:hover { background: var(--brand-v); transform: translateY(-2px); }
 
 /* ── Scrollbar ──────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; }
@@ -594,8 +594,8 @@
   text-decoration: none;
 }
 .social-btn:hover {
-  border-color: var(--orange) !important;
-  color: var(--orange) !important;
+  border-color: var(--brand) !important;
+  color: var(--brand) !important;
   transform: translateY(-2px);
 }
 

@@ -41,43 +41,47 @@ export default function Footer() {
       heading: 'Politika & Yasal',
       links: [
         { href: '/gizlilik', label: 'Gizlilik Politikası' },
-        { href: '/belgeler', label: 'KVKK Aydınlatma' },
+        { href: '/yonetmelik', label: 'KVKK İşleme' },
         { href: '/belgeler', label: 'Kullanım Koşulları' },
-        { href: '/belgeler', label: 'Çerez Politikası' },
+        { href: '/iletisim', label: 'Bize Ulaşın' },
         { href: 'https://www.istanbularel.edu.tr', label: 'Arel Üniversitesi', external: true },
       ],
     },
   ];
 
   return (
-    <footer style={{ background: '#0A0C0F', color: '#fff' }} aria-label="Site altbilgisi">
-      <div className="container-site" style={{ padding: '60px 24px 40px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr 1fr 1fr 1fr', gap: '40px', marginBottom: '48px' }}>
+    <footer style={{ background: '#020617', color: '#fff', borderTop: '1px solid rgba(255,255,255,0.05)' }} aria-label="Site altbilgisi">
+      <div className="container-site" style={{ padding: '80px 24px 40px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr 1fr 1fr 1fr', gap: '60px', marginBottom: '64px' }}>
           {/* Brand */}
           <div>
-            <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+            <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '20px' }}>
               <Image
-                src="/images/arel-logo.png"
+                src="/images/arel-logo-main.jpg"
                 alt="Arel Yazılım Kulübü"
-                width={40}
-                height={40}
-                style={{ objectFit: 'contain', filter: 'brightness(0) invert(1)' }}
+                width={44}
+                height={44}
+                style={{ objectFit: 'contain', borderRadius: '8px', filter: 'brightness(0.9)' }}
               />
-              <span style={{ fontWeight: 800, fontSize: '16px', color: '#fff' }}>Arel Yazılım</span>
+              <span style={{ fontWeight: 900, fontSize: '18px', color: '#fff', letterSpacing: '-0.02em', textTransform: 'uppercase' }}>Arel Yazılım</span>
             </Link>
-            <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.7, marginBottom: '20px' }}>
+            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.4)', lineHeight: 1.8, marginBottom: '24px' }}>
               İstanbul Arel Üniversitesi resmî öğrenci yazılım kulübü.
-              Girişimcilik ve Liderlik Ofisi ekosisteminde teknoloji üretimi.
+              Yazılım, tasarım ve veri bilimi odaklı teknoloji üretimi.
             </p>
             {/* Social icons */}
-            <div style={{ display: 'flex', gap: '10px' }}>
+            <div style={{ display: 'flex', gap: '12px' }}>
               {[
                 { href: siteConfig.social.instagram, label: 'Instagram', icon: '📸' },
                 { href: siteConfig.social.linkedin, label: 'LinkedIn', icon: '💼' },
                 { href: siteConfig.social.github, label: 'GitHub', icon: '💻' },
               ].map(({ href, label, icon }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
-                  className="footer-social-btn"
+                  style={{
+                    width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(255,255,255,0.05)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px',
+                    transition: 'all 0.2s',
+                  }}
                 >
                   {icon}
                 </a>
@@ -89,23 +93,24 @@ export default function Footer() {
           {cols.map((col) => (
             <div key={col.heading}>
               <h3 style={{
-                fontSize: '11px', fontWeight: 800, textTransform: 'uppercase',
-                letterSpacing: '1.5px', color: 'rgba(255,255,255,0.35)',
-                marginBottom: '16px',
+                fontSize: '12px', fontWeight: 800, textTransform: 'uppercase',
+                letterSpacing: '0.1em', color: 'rgba(255,255,255,0.25)',
+                marginBottom: '20px',
               }}>
                 {col.heading}
               </h3>
-              <ul style={{ display: 'flex', flexDirection: 'column', gap: '10px' }} role="list">
+              <ul style={{ display: 'flex', flexDirection: 'column', gap: '12px' }} role="list">
                 {col.links.map(({ href, label, external }) => (
                   <li key={label}>
-                    <a
-                      href={href}
-                      target={external ? '_blank' : undefined}
-                      rel={external ? 'noopener noreferrer' : undefined}
-                      className="footer-link"
-                    >
-                      {label}
-                    </a>
+                    {external ? (
+                      <a href={href} target="_blank" rel="noopener noreferrer" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                        {label}
+                      </a>
+                    ) : (
+                      <Link href={href} style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                        {label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -115,25 +120,25 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div style={{
-          paddingTop: '24px',
-          borderTop: '1px solid rgba(255,255,255,0.08)',
+          paddingTop: '32px',
+          borderTop: '1px solid rgba(255,255,255,0.05)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          gap: '12px',
+          gap: '16px',
         }}>
-          <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.30)' }}>
-            © {year} Arel Yazılım Kulübü · İstanbul Arel Üniversitesi Resmî Öğrenci Kulübü
+          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.3)', fontWeight: 500 }}>
+            © {year} Arel Yazılım Kulübü · Girişimcilik ve Liderlik Ofisi İş Birliğiyle
           </p>
-          <div style={{ display: 'flex', gap: '20px' }}>
+          <div style={{ display: 'flex', gap: '24px' }}>
             {[
               { href: '/gizlilik', label: 'Gizlilik' },
-              { href: '/belgeler', label: 'KVKK' },
+              { href: '/yonetmelik', label: 'KVKK' },
               { href: '/belgeler', label: 'Kullanım Koşulları' },
             ].map(({ href, label }) => (
               <Link key={label} href={href} style={{
-                fontSize: '12px', color: 'rgba(255,255,255,0.30)',
+                fontSize: '13px', color: 'rgba(255,255,255,0.3)',
                 textDecoration: 'none', transition: 'color 0.2s',
               }}>
                 {label}

@@ -35,6 +35,7 @@ export const navLinks = [
   { href: '/topluluk', label: 'Topluluk' },
   { href: '/blog', label: 'Blog' },
   { href: '/sponsorlar', label: 'Partnerler' },
+  { href: '/iletisim', label: 'İletişim' },
 ] as const;
 
 export const mobileNavLinks = [
@@ -44,7 +45,7 @@ export const mobileNavLinks = [
   { href: '/projeler', label: 'Projeler' },
   { href: '/topluluk', label: 'Alt Topluluklar' },
   { href: '/blog', label: 'Blog & Teknik Yazılar' },
-  { href: '/sponsorlar', label: 'Partnerlier' },
+  { href: '/sponsorlar', label: 'Partnerler' },
   { href: '/duyurular', label: 'Duyurular' },
   { href: '/ekip', label: 'Ekip' },
   { href: '/belgeler', label: 'Belgeler / SSS' },
