@@ -105,13 +105,22 @@ function EventCard({ event }: { event: (typeof events)[number] }) {
           {formatDate(event.date)}
           {event.endDate && ` – ${formatDate(event.endDate)}`}
         </div>
-        <Link
-          href="/uyelik"
-          className="inline-flex items-center gap-1.5 rounded-md bg-orange-DEFAULT px-5 py-2 text-[13px] font-bold text-white transition-all hover:bg-orange-vibrant"
-        >
-          Kayıt Ol
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href={`/etkinlikler/${event.slug}`}
+            className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 px-4 py-2 text-[13px] font-bold text-slate-600 transition-all hover:border-orange-DEFAULT hover:text-orange-DEFAULT"
+          >
+            Detay
+          </Link>
+          <Link
+            href="/uyelik"
+            className="inline-flex items-center gap-1.5 rounded-md bg-orange-DEFAULT px-5 py-2 text-[13px] font-bold text-white transition-all hover:bg-orange-vibrant"
+          >
+            Kayıt Ol
+          </Link>
+        </div>
       </div>
     </article>
   );
 }
+

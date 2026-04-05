@@ -29,23 +29,27 @@ export const siteConfig = {
 // Navigation links
 export const navLinks = [
   { href: '/', label: 'Ana Sayfa' },
-  { href: '/kurumsal', label: 'Kurumsal' },
+  { href: '/hakkimizda', label: 'Kulüp' },
   { href: '/etkinlikler', label: 'Etkinlikler' },
   { href: '/projeler', label: 'Projeler' },
-  { href: '/kariyer', label: 'Kariyer' },
-  { href: '/ekip', label: 'Ekip' },
-  { href: '/iletisim', label: 'İletişim' },
+  { href: '/topluluk', label: 'Topluluk' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/sponsorlar', label: 'Partnerler' },
 ] as const;
 
 export const mobileNavLinks = [
   { href: '/', label: 'Ana Sayfa' },
   { href: '/hakkimizda', label: 'Hakkımızda' },
   { href: '/etkinlikler', label: 'Etkinlikler' },
-  { href: '/duyurular', label: 'Duyurular' },
   { href: '/projeler', label: 'Projeler' },
+  { href: '/topluluk', label: 'Alt Topluluklar' },
+  { href: '/blog', label: 'Blog & Teknik Yazılar' },
+  { href: '/sponsorlar', label: 'Partnerlier' },
+  { href: '/duyurular', label: 'Duyurular' },
   { href: '/ekip', label: 'Ekip' },
   { href: '/belgeler', label: 'Belgeler / SSS' },
   { href: '/iletisim', label: 'İletişim' },
+  { href: '/panel', label: 'Üye Paneli 🔒' },
 ] as const;
 
 // Footer links
