@@ -34,7 +34,7 @@ export default function Navbar() {
           {/* ── Logo ── */}
           <Link href="/" className="flex shrink-0 items-center gap-3">
             <Image
-              src="/images/arel-logo-main.jpg"
+              src="/website/images/arel-logo-main.jpg"
               alt="Arel Yazılım Kulübü"
               width={42}
               height={42}

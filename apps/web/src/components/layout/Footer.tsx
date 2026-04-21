@@ -45,7 +45,7 @@ export default function Footer() {
           <div className="sm:col-span-2 lg:col-span-1">
             <Link href="/" className="mb-5 flex items-center gap-3.5">
               <Image
-                src="/images/arel-logo-main.jpg"
+                src="/website/images/arel-logo-main.jpg"
                 alt="Arel Yazılım Kulübü"
                 width={44}
                 height={44}

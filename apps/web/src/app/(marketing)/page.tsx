@@ -99,7 +99,7 @@ export default function HomePage() {
             <div className="hidden items-center justify-center lg:flex">
               <div className="logo-ring">
                 <Image
-                  src="/images/arel-logo-main.jpg"
+                  src="/website/images/arel-logo-main.jpg"
                   alt="Arel Yazılım Kulübü logosu"
                   width={220}
                   height={220}
