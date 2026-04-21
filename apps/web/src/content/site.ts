@@ -66,12 +66,11 @@ export const footerLinks = {
   katilim: [
     { href: '/uyelik', label: 'Üyelik Başvurusu' },
     { href: '/ari-lab', label: 'ARI Lab' },
-    { href: '/yonetmelik', label: 'Tüzük / Yönetmelik' },
-    { href: '/belgeler', label: 'SSS / Belgeler' },
-    { href: '/is-birlikleri', label: 'Kurumsal Ortaklık' },
+    { href: '/belgeler', label: 'Belgeler & Tüzük' },
+    { href: '/sponsorlar', label: 'Kurumsal Ortaklık' },
   ],
   iletisim: [
-    { href: 'mailto:yazilimkulubu@istanbularel.edu.tr', label: 'E-posta Gönder' },
+    { href: 'mailto:yazilimkulubu@istanbularel.edu.tr', label: 'E-posta Gönder', external: true },
     { href: '/iletisim', label: 'İletişim Formu' },
     { href: 'https://instagram.com/arel.yazilim', label: 'Instagram', external: true },
     { href: 'https://linkedin.com/company/arel-yazilim', label: 'LinkedIn', external: true },
