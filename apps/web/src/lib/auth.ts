@@ -1,5 +1,6 @@
 import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/db';
 
 export const authOptions: NextAuthOptions = {
@@ -22,9 +23,6 @@ export const authOptions: NextAuthOptions = {
         if (!user) return null;
         if (!user.isActive) return null;
 
-        // For demo purposes, plain text comparison
-        // In production, always use bcrypt
-        const bcrypt = require('bcryptjs');
         const isValid = await bcrypt.compare(credentials.password, user.password);
 
         if (!isValid) return null;

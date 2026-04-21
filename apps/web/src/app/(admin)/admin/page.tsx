@@ -19,13 +19,11 @@ export default async function AdminPage() {
     userCount,
     pendingApplications,
     upcomingEvents,
-    announcements,
     totalAttendances,
   ] = await Promise.all([
     prisma.user.count(),
     prisma.application.count({ where: { status: 'PENDING' } }),
     prisma.event.count({ where: { status: { in: ['PUBLISHED', 'REGISTRATION_OPEN'] } } }),
-    prisma.announcement.count({ where: { isPublished: true } }),
     prisma.attendance.count(),
   ]);
 

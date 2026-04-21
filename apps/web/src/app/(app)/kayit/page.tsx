@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useAuth } from '@/hooks/use-auth';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 const DEPARTMENTS = [
@@ -30,7 +29,6 @@ const INTERESTS = [
 ] as const;
 
 export default function KayitPage() {
-  const router = useRouter();
   const { register, isLoading } = useAuth();
   
   const [step, setStep] = useState(1);
@@ -299,7 +297,7 @@ export default function KayitPage() {
                     <Link href="/gizlilik" className="text-blue-400 hover:underline">
                       KVKK Aydınlatma Metni
                     </Link>
-                    'ni okudum ve verilerimin işlenmesini onaylıyorum.
+                    &apos;ni okudum ve verilerimin işlenmesini onaylıyorum.
                   </label>
                 </div>
               </div>
