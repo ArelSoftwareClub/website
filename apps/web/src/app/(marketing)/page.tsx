@@ -220,20 +220,23 @@ await community.join();`}</code>
       {/* ── PARTNERS SECTION (NEW) ─────────────────────────────────── */}
       <section className="bg-slate-50 border-y border-slate-200 py-12 overflow-hidden">
         <div className="container-site text-center">
-          <span className="mb-8 block text-[11px] font-bold uppercase tracking-[2px] text-slate-400">
+          <span className="mb-8 block text-[13px] font-black uppercase tracking-[3px] text-slate-600">
             Resmi İş Birliklerimiz & Partnerlerimiz
           </span>
-          <div className="flex flex-wrap items-center justify-center gap-12 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+          <div className="flex flex-wrap items-center justify-center gap-16 transition-all duration-500">
             {/* Placeholder for university logo */}
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-slate-200 animate-pulse" />
-              <span className="text-lg font-black text-slate-400">AREL UNIV</span>
+              <div className="h-12 w-12 rounded-full bg-slate-200 border-2 border-slate-300" />
+              <div className="flex flex-col items-start leading-none">
+                <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-1">Bağlı Kurum</span>
+                <span className="text-xl font-black text-slate-900 tracking-tighter">AREL ÜNİVERSİTESİ</span>
+              </div>
             </div>
             {/* Other partners */}
-            <div className="text-xl font-bold text-slate-400">GOOGLE CLOUD</div>
-            <div className="text-xl font-bold text-slate-400">MICROSOFT AZURE</div>
-            <div className="text-xl font-bold text-slate-400">AWS EDU</div>
-            <div className="text-xl font-bold text-slate-400">GITHUB CAMPUS</div>
+            <div className="text-xl font-black text-slate-800 tracking-tighter">GOOGLE CLOUD</div>
+            <div className="text-xl font-black text-slate-800 tracking-tighter">MICROSOFT AZURE</div>
+            <div className="text-xl font-black text-slate-800 tracking-tighter">AWS EDU</div>
+            <div className="text-xl font-black text-slate-800 tracking-tighter">GITHUB CAMPUS</div>
           </div>
         </div>
       </section>

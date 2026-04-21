@@ -29,7 +29,7 @@ export default function Navbar() {
         className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
           shouldBeTransparent
             ? 'bg-transparent'
-            : 'bg-white/95 shadow-lg shadow-black/5 backdrop-blur-md'
+            : 'bg-white shadow-[0_4px_20px_rgba(0,0,0,0.1)] backdrop-blur-md'
         }`}
         style={{ 
           height: 'var(--nav-h)',
@@ -41,14 +41,20 @@ export default function Navbar() {
         <div className="container-site flex h-full items-center gap-6">
           {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center gap-3" aria-label="Arel Yazılım Kulübü - Ana Sayfa">
-            <div className="relative flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-brand-DEFAULT to-brand-vibrant shadow-lg shadow-brand-DEFAULT/25">
-              <span className="text-sm font-black text-white">A</span>
+            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden">
+              <Image 
+                src="/website/images/arel-logo-main.jpg" 
+                alt="Logo" 
+                width={40} 
+                height={40} 
+                className="object-cover"
+              />
             </div>
             <div className="flex flex-col leading-none">
               <span className={`text-[15px] font-black tracking-[-0.02em] transition-colors ${!shouldBeTransparent ? 'text-slate-900' : 'text-white'}`}>
                 AREL YAZILIM
               </span>
-              <span className={`text-[9px] font-semibold tracking-[0.08em] transition-colors ${!shouldBeTransparent ? 'text-slate-500' : 'text-white/60'}`}>
+              <span className={`text-[9px] font-bold tracking-[0.08em] transition-colors ${!shouldBeTransparent ? 'text-slate-700' : 'text-white/80'}`}>
                 SOFTWARE CLUB
               </span>
             </div>
@@ -65,8 +71,8 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`nav-link relative px-4 py-2 text-[13px] font-semibold transition-all ${
-                    active ? 'text-brand-DEFAULT' : !shouldBeTransparent ? 'text-slate-600 hover:text-brand-DEFAULT' : 'text-white/80 hover:text-white'
+                  className={`nav-link relative px-4 py-2 text-[13.5px] font-bold transition-all ${
+                    active ? 'text-blue-600' : !shouldBeTransparent ? 'text-slate-950 hover:text-blue-600' : 'text-white hover:text-blue-300'
                   }`}
                   aria-current={active ? 'page' : undefined}
                 >

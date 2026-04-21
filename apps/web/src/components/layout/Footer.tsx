@@ -191,7 +191,7 @@ export default function Footer() {
                                 gap: '5px',
                                 fontSize: '13.5px',
                                 fontWeight: 500,
-                                color: 'rgba(255,255,255,0.50)',
+                                color: 'rgba(255,255,255,0.8)',
                                 transition: 'color 0.2s ease',
                               }}
                               className="footer-nav-link"
@@ -206,7 +206,7 @@ export default function Footer() {
                                 display: 'inline-block',
                                 fontSize: '13.5px',
                                 fontWeight: 500,
-                                color: 'rgba(255,255,255,0.50)',
+                                color: 'rgba(255,255,255,0.8)',
                                 transition: 'color 0.2s ease',
                               }}
                               className="footer-nav-link"

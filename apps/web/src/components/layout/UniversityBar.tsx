@@ -9,7 +9,7 @@ export default function UniversityBar() {
       role="banner"
       aria-label="Üniversite Bilgi Bandı"
     >
-      <div className="container-site flex items-center justify-between text-[11px] font-semibold text-slate-600">
+      <div className="container-site flex items-center justify-between text-[11px] font-black text-slate-900 uppercase tracking-tight">
 
         {/* ── Left: affiliation badge ── */}
         <div className="flex items-center gap-3">
